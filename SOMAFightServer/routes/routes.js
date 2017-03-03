@@ -5,6 +5,7 @@ var User = models.User;
 var Game = models.Game;
 var Charatcer = models.Character;
 var Card = models.Card;
+var socketio = require('socket.io')
 
 
 //////////////////////////////// PUBLIC ROUTES ////////////////////////////////
