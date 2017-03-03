@@ -8,13 +8,6 @@ var Charatcer = models.Character;
 var Card = models.Card;
 
 module.exports = function() {
-
-  router.get('/', function(req, res){
-    console.log("key");
-    res.json({
-      life:"hi"
-    })
-  })
   router.post('/signup', function(req, res) {
     // validation step
     var user = new models.User({
@@ -40,13 +33,15 @@ module.exports = function() {
 
   // POST Login page
   router.post('/login', function(req, res) {
-    User.find({username: req.body.username}, function(err, user) {
+    User.findOne({username: req.body.username}, function(err, user) {
       if(err) {
         res.json({
           success: false,
           error: err
         })
       } else {
+        console.log(user);
+        console.log(req.body.password)
         if(user.password === req.body.password) {
           user.online = true;
           user.save(function(err) {
@@ -64,7 +59,6 @@ module.exports = function() {
       }
     })
   });
-
 
   return router;
 };
