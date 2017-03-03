@@ -10,9 +10,7 @@ var Card = models.Card;
 //////////////////////////////// PUBLIC ROUTES ////////////////////////////////
 // Users who are not logged in can see these routes
 
-router.get('/', function(req, res, next) {
-  res.render('home');
-});
+
 
 ///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
 
@@ -50,6 +48,39 @@ router.post('/inBattle', function(req, res) {
   })
 })
 
+
+router.get('/logout', function(req, res) {
+  var user = req.user;
+  user.online = false;
+  user.save(function(err) {
+    if(err) {
+      res.json({
+        success: false,
+        error: err
+      })
+    } else {
+      res.json({
+        success: true
+      })
+    }
+  })
+})
+
+
+router.get('/challengers', function(req, res) {
+  Users.find({online: true, inBattle: false}, function(err, users) {
+    if(err) {
+      res.json({
+        success: false,
+        error: err
+      })
+    } else {
+      res.json({
+        users: users
+      })
+    }
+  })
+})
 
 router.post('/outBattle', function(req, res) {
   var userId = req.body.userId

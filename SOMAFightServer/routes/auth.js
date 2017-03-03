@@ -48,9 +48,12 @@ module.exports = function() {
         })
       } else {
         if(user.password === req.body.password) {
-          res.json({
-            success: true,
-            user: user
+          user.online = true;
+          user.save(function(err) {
+            res.json({
+              success: true,
+              user: user
+            })
           })
         } else {
           res.json({

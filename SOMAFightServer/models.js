@@ -6,6 +6,7 @@ var userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   inBattle: {type: Boolean, default: false},
+  online:{type: Boolean, default: false},
   totalWins: {type: Number, default: 0},
   totalLosses: {type: Number, default: 0}
 });
