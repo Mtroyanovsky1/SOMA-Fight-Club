@@ -9,45 +9,727 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  NavigatorIOS,
+  ListView,
+  Animated
 } from 'react-native';
 
-export default class SOMAFight extends Component {
+var SOMAFight = React.createClass({
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <NavigatorIOS
+        initialRoute={{
+          component: Login,
+          title: "Login"
+        }}
+        style={{flex: 1}}
+        navigationBarHidden={true}
+      />
     );
   }
-}
+});
+
+var Login = React.createClass({
+  register() {
+    this.props.navigator.push({
+      component: Register,
+      title: "Register"
+    });
+  },
+  main() {
+    this.props.navigator.push({
+      component: Main,
+      title: "Main Page"
+    });
+  },
+  render() {
+    return (
+      <Image source={require("./images/fight1.jpg")}
+      resizeMode = "stretch"
+      style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'flex-end'}}>
+      <View style={{width:310, height:175, margin:10}}>
+      <View style={{flex:1, borderColor:'#d3d3d3'}}>
+      <TextInput
+      placeholder = "USERNAME"
+      placeholderTextColor = "white"
+      style = {styles.textInput}/>
+      </View>
+      <View style={{flex:1, borderColor:'#d3d3d3'}}>
+      <TextInput
+      placeholder = "PASSWORD"
+      placeholderTextColor = "white"
+      style = {styles.textInput}/>
+      </View>
+      <TouchableOpacity onPress={this.register}
+      style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
+      <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>REGISTER</Text></TouchableOpacity>
+      <TouchableOpacity onPress={this.main}
+      style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
+      <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>LOG IN</Text></TouchableOpacity>
+      </View>
+      </Image>
+    );
+  }
+})
+var Register = React.createClass({
+  login() {
+    this.props.navigator.push({
+      component: Login,
+      title: "Login"
+    });
+  },
+  render() {
+    return (
+      <Image source={require("./images/fight2.jpg")}
+      resizeMode = "stretch"
+      style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
+      <View style={{width:310, height:175, margin:10}}>
+      <View style={{flex:1, borderColor:'#d3d3d3'}}>
+      <TextInput
+      placeholder = "FIRST NAME"
+      placeholderTextColor = "white"
+      style = {styles.textInput}/>
+      </View>
+      <View style={{flex:1, borderColor:'#d3d3d3'}}>
+      <TextInput
+      placeholder = "LAST NAME"
+      placeholderTextColor = "white"
+      style = {styles.textInput}/>
+      </View>
+      <View style={{flex:1, borderColor:'#d3d3d3'}}>
+      <TextInput
+      placeholder = "USERNAME"
+      placeholderTextColor = "white"
+      style = {styles.textInput}/>
+      </View>
+      <View style={{flex:1, borderColor:'#d3d3d3'}}>
+      <TextInput
+      placeholder = "PASSWORD"
+      placeholderTextColor = "white"
+      style = {styles.textInput}/>
+      </View>
+      <TouchableOpacity onPress={this.login}
+      style={{backgroundColor:'#20B0E8', flex:1, justifyContent:'center', alignItems:'center', opacity: 0.8}}>
+      <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>REGISTER</Text></TouchableOpacity>
+      </View>
+      </Image>
+    );
+  }
+});
+ var CharacterList =  React.createClass({
+   bio() {
+     this.props.navigator.push({
+       component: Bio,
+       title: "Bio"
+     });
+   },
+   render() {
+     return (
+       <View style={{flexDirection: 'row'}}>
+       <View style={{flex:2,  backgroundColor: '#298472'}}>
+         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>Characters</Text>
+          <Image source={require("./images/fight4.jpg")}></Image>
+          <Image source={require("./images/fight4.jpg")}></Image>
+          <Image source={require("./images/fight4.jpg")}></Image>
+          <Image source={require("./images/fight4.jpg")}></Image>
+          <Image source={require("./images/fight4.jpg")}></Image>
+          <Image source={require("./images/fight4.jpg")}></Image>
+          <Image source={require("./images/fight4.jpg")}></Image>
+       </View>
+       <View style={{flex:1, backgroundColor: '#298472', alignItems: 'center'}}>
+         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>Scroll</Text>
+         <Image source={require("./images/fight3.png")}></Image>
+         <Image source={require("./images/fight3.png")}></Image>
+         <Image source={require("./images/fight3.png")}></Image>
+         <Image source={require("./images/fight3.png")}></Image>
+         <Image source={require("./images/fight3.png")}></Image>
+         <Image source={require("./images/fight3.png")}></Image>
+         <Image source={require("./images/fight3.png")}></Image>
+       </View>
+       </View>
+     );
+   }
+ });
+
+ var Main = React.createClass({
+   charList() {
+     this.props.navigator.push({
+       component: CharacterBio
+     });
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+         <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#298472', justifyContent: 'center', alignItems: 'center'}}>
+           <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>BATTLE</Text>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#AA285C', justifyContent: 'center', alignItems: 'center'}}>
+           <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>LEADERBOARD</Text>
+         </TouchableOpacity>
+       </View>
+     )
+   }
+ });
+
+ var CharacterBio = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: '#3BC356'}}>
+        <TouchableOpacity>
+        <Image source={require("./images/character1.png")}
+        resizeMode = "contain"
+        style={{flex:1, alignItems:'center', width:null, height:null}}/>
+        </TouchableOpacity>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+              <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+              <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+              <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+              <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+              <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+            </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterOne = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+          </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterTwo = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+          </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterThree = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+          </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterFour = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'green', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+            </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterFive = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'yellow', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+          </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterSix = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'purple', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+          </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
+ var characterSeven = React.createClass({
+   characterOne(){
+     this.props.navigator.push({
+       component: characterOne
+     })
+   },
+   characterTwo(){
+     this.props.navigator.push({
+       component: characterTwo
+     })
+   },
+   characterThree(){
+     this.props.navigator.push({
+       component: characterThree
+     })
+   },
+   characterFour(){
+     this.props.navigator.push({
+       component: characterFour
+     })
+   },
+   characterFive(){
+     this.props.navigator.push({
+       component: characterFive
+     })
+   },
+   characterSix(){
+     this.props.navigator.push({
+       component: characterSix
+     })
+   },
+   characterSeven(){
+     this.props.navigator.push({
+       component: characterSeven
+     })
+   },
+   render(){
+     return (
+       <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'black', justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
+          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+            <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+          </View>
+          <View style={{flex: 2, backgroundColor: 'white'}}></View>
+          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
+            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
+            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'orange'}}>
+          <TouchableOpacity onPress={this.charList} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+       </View>
+     )
+   }
+ });
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    container: {flex: 1, justifyContent: 'flex-end', alignItems: 'center', width: null, height: null, backgroundColor: 'white',paddingBottom: 20},
+    textInput: {flex:1, backgroundColor:'black', padding:5, color:'#fff', fontSize:12, opacity: 0.8},
 });
+
+
+
 
 AppRegistry.registerComponent('SOMAFight', () => SOMAFight);
