@@ -34,7 +34,7 @@ var Login = React.createClass({
   },
   render() {
     return (
-      <Image source={require("./images/fight1.jpg")}
+      <Image source={require("./images/rickfight.png")}
       resizeMode = "stretch"
       style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'flex-end'}}>
       <View style={{width:310, height:175, margin:10}}>
@@ -204,11 +204,9 @@ var CharacterBio = React.createClass({
     return (
       <View style={{flex: 1}}>
        <View style={{flex: 1, backgroundColor: '#3BC356'}}>
-       <TouchableOpacity>
-       <Image source={require("./images/character1.png")}
+       <Image source={require("./images/abhi.png")}
        resizeMode = "contain"
        style={{flex:1, alignItems:'center', width:null, height:null}}/>
-       </TouchableOpacity>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
@@ -280,19 +278,21 @@ var characterOne = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'grey', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'grey'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-         </View>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+           </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
@@ -353,19 +353,21 @@ var characterTwo = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'orange'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-         </View>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+           </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
@@ -426,19 +428,21 @@ var characterThree = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'blue'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-         </View>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+           </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
@@ -499,18 +503,20 @@ var characterFour = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'green', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'green'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
            </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
@@ -572,19 +578,21 @@ var characterFive = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'yellow', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'yellow'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-         </View>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+           </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
@@ -645,19 +653,21 @@ var characterSix = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'purple', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'purple'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-         </View>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+           </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
@@ -718,19 +728,21 @@ var characterSeven = React.createClass({
   render(){
     return (
       <View style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: 'black', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PICTURE</Text>
+       <View style={{flex: 1, backgroundColor: 'black'}}>
+       <Image source={require("./images/abhi.png")}
+       resizeMode = "contain"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-           <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-           <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-         </View>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+           </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
@@ -797,9 +809,20 @@ var Battle = React.createClass({
 
 
 var Leadership = React.createClass({
+  getInitialState() {
+    return {
+      users: [{name: 'Daniel', ranking: 2}, {name: 'Yum', ranking: 3}, {name: 'Yak', ranking: 2}]
+    };
+  },
   render() {
     return (
-      <Text>Leadership</Text>
+      <View>
+      {this.state.users.map((user) =>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: CharacterBio})} style={[styles.button, styles.buttonPurple]}>
+          <Text>{user.name} #{user.ranking}</Text>
+        </TouchableOpacity>
+      )}
+      </View>
     )
   }
 })
