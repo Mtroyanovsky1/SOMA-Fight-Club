@@ -26,7 +26,7 @@ var mainMenu = React.createClass({
           <Text style={[styles.headerText]}>Welcome to</Text>
           <Text style={[styles.headerText]}>the fight</Text>
         </View>
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Lobby, passProps: {height: 0}})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Lobby})} style={[styles.button, styles.buttonPurple]}>
           <Text style={[styles.buttonText]}>BATTLE</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.props.navigator.push({title: "Leadership", component: Leadership})} style={[styles.button, styles.buttonGreen]}>
@@ -102,7 +102,7 @@ var Lobby = React.createClass({
             <Text>{user.name} #{user.ranking}</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Battle, passProps: {height: 0}})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Battle})} style={[styles.button, styles.buttonPurple]}>
           <Text>
             BATTLE
           </Text>
