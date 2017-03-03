@@ -78,9 +78,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   });
 // }
 // ));
-app.use('/', auth);
+app.use('/', auth());
 app.use('/', routes);
-
+//
+// app.get('/', (req, res) => {
+//   res.send('Hello!');
+// })
 
 
 // catch 404 and forward to error handler
@@ -107,7 +110,7 @@ app.use(function(req, res, next) {
 // production error handler
 // no stacktraces leaked to user
 
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Express started. Listening on port %s', port);
 
