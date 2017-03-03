@@ -210,15 +210,46 @@ var CharacterBio = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/mouse.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/cheetah.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/bee.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/koala.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/toucan.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/turtle.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
+             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+             <Image source={require("./images/crocodile.png")}
+             resizeMode = "contain"
+             style={{flex:1}}/>
+             </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 , textAlign: 'justify'}}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -285,15 +316,46 @@ var characterOne = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 , textAlign: 'justify'}}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -360,15 +422,46 @@ var characterTwo = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 , textAlign: 'justify'}}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -435,15 +528,46 @@ var characterThree = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 , textAlign: 'justify'}}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -510,15 +634,46 @@ var characterFour = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5, textAlign: 'justify' }}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -585,15 +740,46 @@ var characterFive = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 , textAlign: 'justify'}}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -660,15 +846,46 @@ var characterSix = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5, textAlign: 'justify'}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5, textAlign: 'justify' }}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
@@ -735,15 +952,46 @@ var characterSeven = React.createClass({
        </View>
        <View style={{flex: 1, backgroundColor: 'white'}}>
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-             <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-             <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
+         <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/mouse.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'white',alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/cheetah.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/bee.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/koala.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/toucan.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/turtle.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
+         <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent: 'center'}}>
+         <Image source={require("./images/crocodile.png")}
+         resizeMode = "contain"
+         style={{flex:1}}/>
+         </TouchableOpacity>
            </View>
-         <View style={{flex: 2, backgroundColor: 'white'}}></View>
+         <View style={{flex: 2, backgroundColor: 'white', padding: 5}}>
+         <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5, textAlign: 'justify'}}>Keytar pug chillwave enamel pin, freegan cardigan letterpress
+         kinfolk art party pitchfork fashion axe meggings. Tilde stumptown pitchfork, 3 wolf moon coloring book squid waistcoat mustache church-key ethical
+          yuccie kombucha. </Text></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
