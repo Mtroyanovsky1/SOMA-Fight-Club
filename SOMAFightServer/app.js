@@ -9,6 +9,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
+var socketio = require('socket.io');
 
 var REQUIRED_ENV = "MONGODB_URI".split(" ");
 
@@ -109,9 +110,18 @@ app.use(function(req, res, next) {
 
 // production error handler
 // no stacktraces leaked to user
+var server = require('http').createServer(app);
+var socketIo = require('socket.io');
+var webSocket = socketIo(server);
+
+webSocket.on('connection', (socket) => {
+  console.log('A client just joined on', socket.id);
+});
+
 
 var port = process.env.PORT || 8080;
-app.listen(port);
+server.listen(port);
 console.log('Express started. Listening on port %s', port);
+
 
 module.exports = app;
