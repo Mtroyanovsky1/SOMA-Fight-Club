@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react';
+import SocketIOClient from 'socket.io-client';
 import {
   AppRegistry,
   StyleSheet,
@@ -136,6 +137,10 @@ var Lobby = React.createClass({
     return {
       users: [{name: 'Daniel', ranking: 2}, {name: 'Yum', ranking: 3}, {name: 'Yak', ranking: 2}]
     };
+  },
+  componentDidMount() {
+    this.socket = SocketIOClient('http://localhost:3000');
+    this.socket.emit('message', 'hi');
   },
   render() {
     console.log(this.state.users);
