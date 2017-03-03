@@ -12,28 +12,24 @@ var userSchema = new mongoose.Schema({
 var gameSchema = new mongoose.Schema({
   loser: String,
   winner: String,
-  time: Date
-});
-
-var cardSchema = new mongoose.Schema({
-  title: String,
-  attackEff: String,
-  defenseEff: String
+  time: {type:Date, default: Date.now()}
 });
 
 var charSchema = new mongoose.Schema({
   name: String,
   image: String, //image url
-  ability: String
+  ultimateAbility: String,
+  attack: {type:Number, default: 10},
+  defense: {type:Number, default: 10},
+  specAttk: Number,
+  specDef: Number
 });
 
-Card = mongoose.model('Card', cardSchema)
 Character = mongoose.model('Character', charSchema)
 Game = mmongoose.model('Game', gameSchema)
 User = mongoose.model('User', userSchema);
 
 module.exports = {
-    Card:Card,
     Character:Character,
     Game:Game,
     User:User
