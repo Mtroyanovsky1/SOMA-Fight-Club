@@ -15,13 +15,13 @@ var socketio = require('socket.io')
 
 ///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
 
-router.use(function(req, res, next){
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    return next();
-  }
-});
+// router.use(function(req, res, next){
+//   if (!req.user) {
+//     res.redirect('/login');
+//   } else {
+//     return next();
+//   }
+// });
 
 //////////////////////////////// PRIVATE ROUTES ////////////////////////////////
 // Only logged in users can see these routes
@@ -70,7 +70,7 @@ router.get('/logout', function(req, res) {
 
 
 router.get('/challengers', function(req, res) {
-  Users.find({online: true, inBattle: false}, function(err, users) {
+  User.find({online: true, inBattle: false}, function(err, users) {
     if(err) {
       res.json({
         success: false,
