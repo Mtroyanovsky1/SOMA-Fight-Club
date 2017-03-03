@@ -139,8 +139,11 @@ var Lobby = React.createClass({
     };
   },
   componentDidMount() {
-    this.socket = SocketIOClient('http://localhost:3000');
+    this.socket = SocketIOClient('http://localhost:8080');
     this.socket.emit('message', 'hi');
+    this.socket.on('message', (str) => {
+      alert('lhoohohoho')
+    })
   },
   render() {
     console.log(this.state.users);
