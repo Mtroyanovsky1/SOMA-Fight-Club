@@ -33,7 +33,7 @@ module.exports = function() {
 
   // POST Login page
   router.post('/login', function(req, res) {
-    User.findOne({username: req.body.username}, function(err, user) {
+    User.findOne({username: req.body.username}, function(user, err) {
       if(err) {
         res.json({
           success: false,
