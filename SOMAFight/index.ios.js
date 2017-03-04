@@ -46,8 +46,7 @@ var Login = React.createClass({
     fetch('http://localhost:8080/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: this.state.username,
@@ -57,7 +56,7 @@ var Login = React.createClass({
     .then((res) => res.json())
     .then((responseJson) => {
       if (responseJson) {
-        var loggedInUser = responseJson.user;
+        loggedInUser = responseJson.user;
         this.props.navigator.push({
           component: mainMenu,
           title: "mainMenu"
@@ -69,7 +68,6 @@ var Login = React.createClass({
     .catch((err) => {
       alert(err);
     })
-
   },
   render() {
     return (
@@ -246,15 +244,21 @@ var Lobby = React.createClass({
       if (accept) {
         var accepted = {
           accept: true,
-          user: ''
+          user: loggedInUser
         }
+        this.props.navigator.push({title: "Battle", component: CharacterBio})
         this.socket.emit('acceptMatch', accepted);
       } else {
-        var accepted = {
+        var declined = {
           accept: false,
-          user: ''
+          user: loggedInUser
         }
-        this.socket.emit('acceptMatch', accepted);
+        this.socket.emit('acceptMatch', declined);
+      }
+    })
+    this.socket.on('acceptMatch', (user) => {
+      if (loggedInUser.username === user) {
+          this.props.navigator.push({title: "Battle", component: CharacterBio})
       }
     })
     // this.socket.emit('message', 'hi');
@@ -262,8 +266,9 @@ var Lobby = React.createClass({
     //   alert('lhoohohoho')
     // })
   },
-  challenge(toChallenge) {
-    this.socket.emit('')
+  challenge() {
+    this.socket.emit('challenge', {user: loggedInUser})
+    //
   },
   render() {
     return (
@@ -272,11 +277,11 @@ var Lobby = React.createClass({
           Go fight someone!
         </Text>
         {this.state.users.map((user) =>
-          <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: CharacterBio})} style={[styles.button, styles.buttonPurple]}>
+          <TouchableOpacity style={[styles.button, styles.buttonPurple]}>
             <Text>{user.username} # of wins: {user.totalWins}</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Battle})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={this.challenge} style={[styles.button, styles.buttonPurple]}>
           <Text>
             BATTLE
           </Text>
