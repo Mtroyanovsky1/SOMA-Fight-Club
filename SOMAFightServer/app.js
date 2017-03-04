@@ -113,14 +113,26 @@ app.use(function(req, res, next) {
 var server = require('http').createServer(app);
 var socketIo = require('socket.io');
 var io = socketIo(server);
+//game ids to make sure no one enters a game now
+var liveGames = {}
 
 io.on('connection', function(socket) {
   // listen for message event
+  var player1 = {};
+  var player2 = {};
   socket.on('challenge', (challenge) => {
-    socket.broadcast.emit('battle', challenge.username)
+    player1 = challenge;
+    socket.broadcast.emit('battle', player1.username)
   });
 
-  
+  socket.on('acceptMatch', (accepted) => {
+    if (accepted.accept) {
+      player2 = accepted;
+      socket.emit('acceptMatch', player1.username)
+    } else {
+
+    }
+  })
 });
 
 
