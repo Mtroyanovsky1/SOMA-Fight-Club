@@ -160,7 +160,7 @@ var Lobby = React.createClass({
     // })
   },
   challenge(toChallenge) {
-    this.socket.emit('')
+    this.socket.emit('challenge', {user: user.username});
   },
   render() {
     return (
@@ -173,7 +173,7 @@ var Lobby = React.createClass({
             <Text>{user.username} # of wins: {user.totalWins}</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Battle})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={this.challenge} style={[styles.button, styles.buttonPurple]}>
           <Text>
             BATTLE
           </Text>
