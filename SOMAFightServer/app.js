@@ -116,8 +116,8 @@ var io = socketIo(server);
 
 io.on('connection', function(socket) {
   // listen for message event
-  socket.on('message', (str) => {
-    console.log(str);
+  socket.on('challenge', (challenge) => {
+    socket.broadcast.emit('battle', challenge.username)
   });
 });
 
