@@ -119,7 +119,11 @@ io.on('connection', function(socket) {
   socket.on('challenge', (challenge) => {
     socket.broadcast.emit('battle', challenge.username)
   });
+
+  
 });
+
+
 
 
 
