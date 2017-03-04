@@ -19,8 +19,17 @@ import {
   Animated
 } from 'react-native';
 
+var loggedInUser = {}
+
 
 var Login = React.createClass({
+
+  getInitialState() {
+    return {
+    username: "",
+    password: ""
+    }
+  },
   register() {
     this.props.navigator.push({
       component: Register,
@@ -33,6 +42,30 @@ var Login = React.createClass({
       title: "mainMenu"
     });
   },
+  login() {
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      body: {
+        username: this.state.username,
+        password: this.state.password
+      }
+    })
+    .then((res) => res.json())
+    .then((responseJson) => {
+      if (responseJson) {
+        var loggedInUser = responseJson.user;
+        this.props.navigator.push({
+          component: mainMenu,
+          title: "mainMenu"
+        })
+      } else {
+        console.log('error');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  },
   render() {
     return (
       <Image source={require("./images/rickfight.png")}
@@ -43,18 +76,24 @@ var Login = React.createClass({
       <TextInput
       placeholder = "USERNAME"
       placeholderTextColor = "white"
-      style = {styles.textInput}/>
+      style = {styles.textInput}
+      onChangeText={(text) => this.setState({username: text})}
+      value={this.state.username}
+      />
       </View>
       <View style={{flex:1, borderColor:'#d3d3d3'}}>
       <TextInput
       placeholder = "PASSWORD"
       placeholderTextColor = "white"
-      style = {styles.textInput}/>
+      style = {styles.textInput}
+      onChangeText={(text) => this.setState({password: text})}
+      value={this.state.password}
+      />
       </View>
       <TouchableOpacity onPress={this.register}
       style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
       <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>REGISTER</Text></TouchableOpacity>
-      <TouchableOpacity onPress={this.main}
+      <TouchableOpacity onPress={this.login}
       style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
       <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>LOG IN</Text></TouchableOpacity>
       </View>
@@ -65,11 +104,43 @@ var Login = React.createClass({
 
 
 var Register = React.createClass({
-  login() {
-    this.props.navigator.push({
-      component: Login,
-      title: "Login"
-    });
+
+  getInitialState() {
+    return {
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: ""
+    }
+  },
+  register() {
+      fetch('http://localhost:8080/register', {
+        method: 'POST',
+        body:{
+          username: this.state.username,
+          password: this.state.password,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName
+        }
+      })
+      .then((res) => res.json())
+      .then((responseJson) => {
+        if (responseJson.success) {
+          this.props.navigator.push({
+            component: Login,
+            title: "Login"
+          })
+        } else {
+          console.log('error');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      this.props.navigator.push({
+        component: Login,
+        title: "Login"
+      });
   },
   render() {
     return (
@@ -81,27 +152,39 @@ var Register = React.createClass({
       <TextInput
       placeholder = "FIRST NAME"
       placeholderTextColor = "white"
-      style = {styles.textInput}/>
+      style = {styles.textInput}
+      onChangeText={(text) => this.setState({firstname: text})}
+      value={this.state.firstname}
+      />
       </View>
       <View style={{flex:1, borderColor:'#d3d3d3'}}>
       <TextInput
       placeholder = "LAST NAME"
       placeholderTextColor = "white"
-      style = {styles.textInput}/>
+      style = {styles.textInput}
+      onChangeText={(text) => this.setState({lastname: text})}
+      value={this.state.lastname}
+      />
       </View>
       <View style={{flex:1, borderColor:'#d3d3d3'}}>
       <TextInput
       placeholder = "USERNAME"
       placeholderTextColor = "white"
-      style = {styles.textInput}/>
+      style = {styles.textInput}
+      onChangeText={(text) => this.setState({username: text})}
+      value={this.state.username}
+      />
       </View>
       <View style={{flex:1, borderColor:'#d3d3d3'}}>
       <TextInput
       placeholder = "PASSWORD"
       placeholderTextColor = "white"
-      style = {styles.textInput}/>
+      style = {styles.textInput}
+      onChangeText={(text) => this.setState({password: text})}
+      value={this.state.password}
+      />
       </View>
-      <TouchableOpacity onPress={this.login}
+      <TouchableOpacity onPress={this.register}
       style={{backgroundColor:'#20B0E8', flex:1, justifyContent:'center', alignItems:'center', opacity: 0.8}}>
       <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>REGISTER</Text></TouchableOpacity>
       </View>
@@ -154,6 +237,22 @@ var Lobby = React.createClass({
   },
   componentDidMount() {
     this.socket = SocketIOClient('http://localhost:8080');
+    this.socket.on('battle', (user) => {
+      var accept = confirm(user + 'has challenged you! Do you accept?');
+      if (accept) {
+        var accepted = {
+          accept: true,
+          user: ''
+        }
+        this.socket.emit('acceptMatch', accepted);
+      } else {
+        var accepted = {
+          accept: false,
+          user: ''
+        }
+        this.socket.emit('acceptMatch', accepted);
+      }
+    })
     // this.socket.emit('message', 'hi');
     // this.socket.on('message', (str) => {
     //   alert('lhoohohoho')
