@@ -112,11 +112,16 @@ app.use(function(req, res, next) {
 // no stacktraces leaked to user
 var server = require('http').createServer(app);
 var socketIo = require('socket.io');
-var webSocket = socketIo(server);
+var io = socketIo(server);
 
-webSocket.on('connection', (socket) => {
-  console.log('A client just joined on', socket.id);
+io.on('connection', function(socket) {
+  // listen for message event
+  socket.on('message', (str) => {
+    console.log(str);
+  });
 });
+
+
 
 
 var port = process.env.PORT || 8080;

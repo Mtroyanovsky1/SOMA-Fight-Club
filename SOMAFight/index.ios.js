@@ -134,16 +134,35 @@ var mainMenu = React.createClass({
 
 var Lobby = React.createClass({
   getInitialState() {
+    fetch('http://localhost:8080/challengers')
+    .then((res) => res.json())
+    .then((responseJson) => {
+      if (responseJson) {
+        this.setState({
+          users: responseJson.users
+        })
+      } else {
+        console.log('error');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
     return {
-      users: [{name: 'Daniel', ranking: 2}, {name: 'Yum', ranking: 3}, {name: 'Yak', ranking: 2}]
-    };
+      users: []
+    }
   },
   componentDidMount() {
-    this.socket = SocketIOClient('http://localhost:3000');
-    this.socket.emit('message', 'hi');
+    this.socket = SocketIOClient('http://localhost:8080');
+    // this.socket.emit('message', 'hi');
+    // this.socket.on('message', (str) => {
+    //   alert('lhoohohoho')
+    // })
+  },
+  challenge(toChallenge) {
+    this.socket.emit('')
   },
   render() {
-    console.log(this.state.users);
     return (
       <View style={[styles.userList]}>
         <Text style={{fontSize: 30, fontWeight: 'bold'}}>
@@ -151,7 +170,7 @@ var Lobby = React.createClass({
         </Text>
         {this.state.users.map((user) =>
           <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: CharacterBio})} style={[styles.button, styles.buttonPurple]}>
-            <Text>{user.name} #{user.ranking}</Text>
+            <Text>{user.username} # of wins: {user.totalWins}</Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Battle})} style={[styles.button, styles.buttonPurple]}>
