@@ -118,20 +118,14 @@ var liveGames = {}
 
 io.on('connection', function(socket) {
   // listen for message event
-  var player1 = {};
-  var player2 = {};
   socket.on('challenge', (challenge) => {
-    player1 = challenge;
-    socket.broadcast.emit('battle', player1.user.username)
+    socket.broadcast.emit('battle', challenge)
   });
 
   socket.on('acceptMatch', (accepted) => {
-    if (accepted.accept) {
-      player2 = accepted;
-      socket.emit('acceptMatch', player1.username)
-    } else {
-
-    }
+      console.log('player1: ' + accepted.player1.username);
+      console.log('player2: ' + accepted.player2.username);
+      socket.broadcast.emit('acceptMatch', accepted);
   })
 });
 
