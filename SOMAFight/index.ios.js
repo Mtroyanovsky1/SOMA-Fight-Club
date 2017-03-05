@@ -261,7 +261,7 @@ var Lobby = React.createClass({
         if (accept) {
           user.player2 = loggedInUser;
           this.socket.emit('acceptMatch', user);
-          this.props.navigator.push({title: "CharacterBio", component: characterOne, passProps: {game: user}});
+          this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}});
         }
         // else {
         //   var declined = {
@@ -275,7 +275,7 @@ var Lobby = React.createClass({
     })
     this.socket.on('acceptMatch', (user) => {
       if (loggedInUser.username === user.player1.username) {
-          this.props.navigator.push({title: "CharacterBio", component: characterOne, passProps: {game: user}})
+          this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}})
       }
     })
     // this.socket.emit('message', 'hi');
@@ -311,45 +311,34 @@ var Lobby = React.createClass({
 var landoDes = "";
 var speakerDes = "";
 
-var CharacterBio = React.createClass({
+var characterBio = React.createClass({
   characterOne(){
     this.props.navigator.push({
-      component: characterOne
+      component: characterOne,
+      title: "Lando",
+      passProps: {game: this.props.game}
     })
   },
   characterTwo(){
     this.props.navigator.push({
-      component: characterTwo
-    })
-  },
-  characterThree(){
-    this.props.navigator.push({
-      component: characterThree
-    })
-  },
-  characterFour(){
-    this.props.navigator.push({
-      component: characterFour
-    })
-  },
-  characterFive(){
-    this.props.navigator.push({
-      component: characterFive
-    })
-  },
-  characterSix(){
-    this.props.navigator.push({
-      component: characterSix
-    })
-  },
-  characterSeven(){
-    this.props.navigator.push({
-      component: characterSeven
+      component: characterTwo,
+      title: "Speaker",
+      passProps: {game: this.props.game}
     })
   },
   battle(){
-    this.props.navigator.push({
-      component: Battle
+    this.socket = SocketIOClient('http://localhost:8080');
+    if (loggedInUser.username === this.props.game.player1.username) {
+      this.props.game.player1char = "Lando";
+    } else {
+      this.props.game.player2char = "Speaker"
+    }
+    this.socket.emit('character', this.props.game);
+    this.socket.on('character', (char) => {
+      this.props.navigator.push({
+        component: Battle,
+        passProps: {game: char}
+      })
     })
   },
   componentDidMount() {
@@ -367,12 +356,6 @@ var CharacterBio = React.createClass({
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold'}}>PLAY AS LANDO</Text></TouchableOpacity>
              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold'}}>PLAY AS SPEAKER</Text></TouchableOpacity>
-          {  //  <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-          }
            </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
@@ -393,42 +376,31 @@ var CharacterBio = React.createClass({
 var characterOne = React.createClass({
   characterOne(){
     this.props.navigator.push({
-      component: characterOne
+      title: "Lando",
+      component: characterOne,
+      passProps: {game: this.props.game}
     })
   },
   characterTwo(){
     this.props.navigator.push({
-      component: characterTwo
+      title: "Speaker",
+      component: characterTwo,
+      passProps: {game: this.props.game}
     })
   },
-  // characterThree(){
-  //   this.props.navigator.push({
-  //     component: characterThree
-  //   })
-  // },
-  // characterFour(){
-  //   this.props.navigator.push({
-  //     component: characterFour
-  //   })
-  // },
-  // characterFive(){
-  //   this.props.navigator.push({
-  //     component: characterFive
-  //   })
-  // },
-  // characterSix(){
-  //   this.props.navigator.push({
-  //     component: characterSix
-  //   })
-  // },
-  // characterSeven(){
-  //   this.props.navigator.push({
-  //     component: characterSeven
-  //   })
-  // },
   battle(){
-    this.props.navigator.push({
-      component: Battle
+    this.socket = SocketIOClient('http://localhost:8080');
+    if (loggedInUser.username === this.props.game.player1.username) {
+      this.props.game.player1char = "Lando";
+    } else {
+      this.props.game.player2char = "Speaker"
+    }
+    this.socket.emit('character', this.props.game);
+    this.socket.on('character', (char) => {
+      this.props.navigator.push({
+        component: Battle,
+        passProps: {game: char}
+      })
     })
   },
   render(){
@@ -443,12 +415,6 @@ var characterOne = React.createClass({
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'red', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold'}}>PLAY AS LANDO</Text></TouchableOpacity>
              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold'}}>PLAY AS SPEAKER</Text></TouchableOpacity>
-            {//  <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-          }
            </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
@@ -469,42 +435,31 @@ var characterOne = React.createClass({
 var characterTwo = React.createClass({
   characterOne(){
     this.props.navigator.push({
-      component: characterOne
+      title: "Lando",
+      component: characterOne,
+      passProps: {game: this.props.game}
     })
   },
   characterTwo(){
     this.props.navigator.push({
-      component: characterTwo
+      title: "Speaker",
+      component: characterTwo,
+      passProps: {game: this.props.game}
     })
   },
-  // characterThree(){
-  //   this.props.navigator.push({
-  //     component: characterThree
-  //   })
-  // },
-  // characterFour(){
-  //   this.props.navigator.push({
-  //     component: characterFour
-  //   })
-  // },
-  // characterFive(){
-  //   this.props.navigator.push({
-  //     component: characterFive
-  //   })
-  // },
-  // characterSix(){
-  //   this.props.navigator.push({
-  //     component: characterSix
-  //   })
-  // },
-  // characterSeven(){
-  //   this.props.navigator.push({
-  //     component: characterSeven
-  //   })
-  // },
   battle(){
-    this.props.navigator.push({
-      component: Battle
+    this.socket = SocketIOClient('http://localhost:8080');
+    if (loggedInUser.username === this.props.game.player1.username) {
+      this.props.game.player1char = "Lando";
+    } else {
+      this.props.game.player2char = "Speaker"
+    }
+    this.socket.emit('character', this.props.game);
+    this.socket.on('character', (char) => {
+      this.props.navigator.push({
+        component: Battle,
+        passProps: {game: char}
+      })
     })
   },
   render(){
@@ -519,12 +474,6 @@ var characterTwo = React.createClass({
          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'red', color: 'white', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold'}}>PLAY AS LANDO</Text></TouchableOpacity>
              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'blue', color: 'white', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold'}}>PLAY AS SPEAKER</Text></TouchableOpacity>
-          {  //  <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-            //  <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-          }
            </View>
          <View style={{flex: 2, backgroundColor: 'white'}}></View>
          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
@@ -542,386 +491,14 @@ var characterTwo = React.createClass({
   }
 });
 
-// var characterThree = React.createClass({
-//   characterOne(){
-//     this.props.navigator.push({
-//       component: characterOne
-//     })
-//   },
-//   characterTwo(){
-//     this.props.navigator.push({
-//       component: characterTwo
-//     })
-//   },
-//   characterThree(){
-//     this.props.navigator.push({
-//       component: characterThree
-//     })
-//   },
-//   characterFour(){
-//     this.props.navigator.push({
-//       component: characterFour
-//     })
-//   },
-//   characterFive(){
-//     this.props.navigator.push({
-//       component: characterFive
-//     })
-//   },
-//   characterSix(){
-//     this.props.navigator.push({
-//       component: characterSix
-//     })
-//   },
-//   characterSeven(){
-//     this.props.navigator.push({
-//       component: characterSeven
-//     })
-//   },
-//   battle(){
-//     this.props.navigator.push({
-//       component: Battle
-//     })
-//   },
-//   render(){
-//     return (
-//       <View style={{flex: 1}}>
-//        <View style={{flex: 1, backgroundColor: 'blue'}}>
-//        <Image source={require("./images/abhi.png")}
-//        resizeMode = "contain"
-//        style={{flex:1, alignItems:'center', width:null, height:null}}/>
-//        </View>
-//        <View style={{flex: 1, backgroundColor: 'white'}}>
-//          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-//              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-//            </View>
-//          <View style={{flex: 2, backgroundColor: 'white'}}></View>
-//          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
-//            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
-//            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
-//          </View>
-//          <View style={{flex: 1, backgroundColor: 'orange'}}>
-//          <TouchableOpacity onPress={this.battle} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
-//            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
-//          </TouchableOpacity>
-//          </View>
-//        </View>
-//       </View>
-//     )
-//   }
-// });
-//
-// var characterFour = React.createClass({
-//   characterOne(){
-//     this.props.navigator.push({
-//       component: characterOne
-//     })
-//   },
-//   characterTwo(){
-//     this.props.navigator.push({
-//       component: characterTwo
-//     })
-//   },
-//   characterThree(){
-//     this.props.navigator.push({
-//       component: characterThree
-//     })
-//   },
-//   characterFour(){
-//     this.props.navigator.push({
-//       component: characterFour
-//     })
-//   },
-//   characterFive(){
-//     this.props.navigator.push({
-//       component: characterFive
-//     })
-//   },
-//   characterSix(){
-//     this.props.navigator.push({
-//       component: characterSix
-//     })
-//   },
-//   characterSeven(){
-//     this.props.navigator.push({
-//       component: characterSeven
-//     })
-//   },
-//   battle(){
-//     this.props.navigator.push({
-//       component: Battle
-//     })
-//   },
-//   render(){
-//     return (
-//       <View style={{flex: 1}}>
-//        <View style={{flex: 1, backgroundColor: 'green'}}>
-//        <Image source={require("./images/abhi.png")}
-//        resizeMode = "contain"
-//        style={{flex:1, alignItems:'center', width:null, height:null}}/>
-//        </View>
-//        <View style={{flex: 1, backgroundColor: 'white'}}>
-//          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-//              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-//            </View>
-//          <View style={{flex: 2, backgroundColor: 'white'}}></View>
-//          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
-//            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
-//            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
-//          </View>
-//          <View style={{flex: 1, backgroundColor: 'orange'}}>
-//          <TouchableOpacity onPress={this.battle} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
-//            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
-//          </TouchableOpacity>
-//          </View>
-//        </View>
-//       </View>
-//     )
-//   }
-// });
-//
-// var characterFive = React.createClass({
-//   characterOne(){
-//     this.props.navigator.push({
-//       component: characterOne
-//     })
-//   },
-//   characterTwo(){
-//     this.props.navigator.push({
-//       component: characterTwo
-//     })
-//   },
-//   characterThree(){
-//     this.props.navigator.push({
-//       component: characterThree
-//     })
-//   },
-//   characterFour(){
-//     this.props.navigator.push({
-//       component: characterFour
-//     })
-//   },
-//   characterFive(){
-//     this.props.navigator.push({
-//       component: characterFive
-//     })
-//   },
-//   characterSix(){
-//     this.props.navigator.push({
-//       component: characterSix
-//     })
-//   },
-//   characterSeven(){
-//     this.props.navigator.push({
-//       component: characterSeven
-//     })
-//   },
-//   battle(){
-//     this.props.navigator.push({
-//       component: Battle
-//     })
-//   },
-//   render(){
-//     return (
-//       <View style={{flex: 1}}>
-//        <View style={{flex: 1, backgroundColor: 'yellow'}}>
-//        <Image source={require("./images/abhi.png")}
-//        resizeMode = "contain"
-//        style={{flex:1, alignItems:'center', width:null, height:null}}/>
-//        </View>
-//        <View style={{flex: 1, backgroundColor: 'white'}}>
-//          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-//              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-//            </View>
-//          <View style={{flex: 2, backgroundColor: 'white'}}></View>
-//          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
-//            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
-//            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
-//          </View>
-//          <View style={{flex: 1, backgroundColor: 'orange'}}>
-//          <TouchableOpacity onPress={this.battle} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
-//            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
-//          </TouchableOpacity>
-//          </View>
-//        </View>
-//       </View>
-//     )
-//   }
-// });
-//
-// var characterSix = React.createClass({
-//   characterOne(){
-//     this.props.navigator.push({
-//       component: characterOne
-//     })
-//   },
-//   characterTwo(){
-//     this.props.navigator.push({
-//       component: characterTwo
-//     })
-//   },
-//   characterThree(){
-//     this.props.navigator.push({
-//       component: characterThree
-//     })
-//   },
-//   characterFour(){
-//     this.props.navigator.push({
-//       component: characterFour
-//     })
-//   },
-//   characterFive(){
-//     this.props.navigator.push({
-//       component: characterFive
-//     })
-//   },
-//   characterSix(){
-//     this.props.navigator.push({
-//       component: characterSix
-//     })
-//   },
-//   characterSeven(){
-//     this.props.navigator.push({
-//       component: characterSeven
-//     })
-//   },
-//   battle(){
-//     this.props.navigator.push({
-//       component: Battle
-//     })
-//   },
-//   render(){
-//     return (
-//       <View style={{flex: 1}}>
-//        <View style={{flex: 1, backgroundColor: 'purple'}}>
-//        <Image source={require("./images/abhi.png")}
-//        resizeMode = "contain"
-//        style={{flex:1, alignItems:'center', width:null, height:null}}/>
-//        </View>
-//        <View style={{flex: 1, backgroundColor: 'white'}}>
-//          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-//              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-//            </View>
-//          <View style={{flex: 2, backgroundColor: 'white'}}></View>
-//          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
-//            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
-//            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
-//          </View>
-//          <View style={{flex: 1, backgroundColor: 'orange'}}>
-//          <TouchableOpacity onPress={this.battle} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
-//            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
-//          </TouchableOpacity>
-//          </View>
-//        </View>
-//       </View>
-//     )
-//   }
-// });
-//
-// var characterSeven = React.createClass({
-//   characterOne(){
-//     this.props.navigator.push({
-//       component: characterOne
-//     })
-//   },
-//   characterTwo(){
-//     this.props.navigator.push({
-//       component: characterTwo
-//     })
-//   },
-//   characterThree(){
-//     this.props.navigator.push({
-//       component: characterThree
-//     })
-//   },
-//   characterFour(){
-//     this.props.navigator.push({
-//       component: characterFour
-//     })
-//   },
-//   characterFive(){
-//     this.props.navigator.push({
-//       component: characterFive
-//     })
-//   },
-//   characterSix(){
-//     this.props.navigator.push({
-//       component: characterSix
-//     })
-//   },
-//   characterSeven(){
-//     this.props.navigator.push({
-//       component: characterSeven
-//     })
-//   },
-//   battle(){
-//     this.props.navigator.push({
-//       component: Battle
-//     })
-//   },
-//   render(){
-//     return (
-//       <View style={{flex: 1}}>
-//        <View style={{flex: 1, backgroundColor: 'black'}}>
-//        <Image source={require("./images/abhi.png")}
-//        resizeMode = "contain"
-//        style={{flex:1, alignItems:'center', width:null, height:null}}/>
-//        </View>
-//        <View style={{flex: 1, backgroundColor: 'white'}}>
-//          <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
-//              <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: 'grey'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterTwo} style={{flex: 1, backgroundColor: 'orange'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterThree} style={{flex: 1, backgroundColor: 'blue'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFour} style={{flex: 1, backgroundColor: 'green'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterFive} style={{flex: 1, backgroundColor: 'yellow'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSix} style={{flex: 1, backgroundColor: 'purple'}}></TouchableOpacity>
-//              <TouchableOpacity onPress={this.characterSeven} style={{flex: 1, backgroundColor: 'black'}}></TouchableOpacity>
-//            </View>
-//          <View style={{flex: 2, backgroundColor: 'white'}}></View>
-//          <View style={{flex: 2, backgroundColor: 'white', border: '1px solid grey', padding: 5}}>
-//            <Text style={{color: 'grey',fontStyle: 'italic', fontWeight: 'bold', marginBottom: 5 }}>Special Move</Text>
-//            <Text style={{color: 'grey', }}>Deals 50 damage by dropping a massive cake on the opponent</Text>
-//          </View>
-//          <View style={{flex: 1, backgroundColor: 'orange'}}>
-//          <TouchableOpacity onPress={this.battle} style={{flex:1, flexDirection: 'column', backgroundColor: '#FF5D5D', justifyContent: 'center', alignItems: 'center'}}>
-//            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>PLAY</Text>
-//          </TouchableOpacity>
-//          </View>
-//        </View>
-//       </View>
-//     )
-//   }
-// });
-
 var Battle = React.createClass({
   setInitialState() {
     return {
 
     }
+  },
+  componentDidMount() {
+
   },
   render() {
     return (
@@ -930,6 +507,7 @@ var Battle = React.createClass({
         resizeMode = "stretch"
         style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'flex-end'}}>
         <View style={[styles.battleCharacterView]} >
+          <Text>{this.props.game.player1}</Text>
           <View style={[styles.yourChar]}>
             <TouchableOpacity onPress={() => this.props.navigator.pop(0)} style={[styles.button]}>
               <Text style={[styles.buttonText]}>Main Menu</Text>
@@ -976,7 +554,7 @@ var Leadership = React.createClass({
     return (
       <View>
       {this.state.users.map((user) =>
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: characterOne})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Lobby", component: Lobby})} style={[styles.button, styles.buttonPurple]}>
           <Text>{user.name} #{user.ranking}</Text>
         </TouchableOpacity>
       )}
