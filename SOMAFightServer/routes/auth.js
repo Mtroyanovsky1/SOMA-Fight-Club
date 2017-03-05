@@ -32,15 +32,20 @@ module.exports = function() {
 
   // POST Login page
   router.post('/login', function(req, res) {
-    User.findOne({username: req.body.username}, function(user, err) {
-      if(err) {
+    User.findOne({username: req.body.username}, function(err, user) {
+      if (err) {
         res.json({
           success: false,
           error: err
         })
       } else {
-        console.log(user);
-        console.log(req.body.password)
+        console.log(user)
+        // if (!user) {
+        //   res.json({
+        //     success: false,
+        //     error: "password didn't match"
+        //   })
+        // }
         if(user.password === req.body.password) {
           user.online = true;
           user.save(function(err) {

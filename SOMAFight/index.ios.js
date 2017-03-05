@@ -16,7 +16,9 @@ import {
   TouchableOpacity,
   NavigatorIOS,
   ListView,
-  Animated
+  Animated,
+  KeyboardAvoidingView,
+  Alert
 } from 'react-native';
 
 var loggedInUser = {}
@@ -73,26 +75,29 @@ var Login = React.createClass({
     return (
       <Image source={require("./images/rickfight.png")}
       resizeMode = "stretch"
-      style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'flex-end'}}>
+      style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'flex-start'}}>
       <View style={{width:310, height:175, margin:10}}>
-      <View style={{flex:1, borderColor:'#d3d3d3'}}>
-      <TextInput
-      placeholder = "USERNAME"
-      placeholderTextColor = "white"
-      style = {styles.textInput}
-      onChangeText={(text) => this.setState({username: text})}
-      value={this.state.username}
-      />
-      </View>
-      <View style={{flex:1, borderColor:'#d3d3d3'}}>
-      <TextInput
-      placeholder = "PASSWORD"
-      placeholderTextColor = "white"
-      style = {styles.textInput}
-      onChangeText={(text) => this.setState({password: text})}
-      value={this.state.password}
-      />
-      </View>
+        <View style={{flex:1, borderColor:'#d3d3d3'}}>
+
+          <TextInput
+          placeholder = "USERNAME"
+          placeholderTextColor = "white"
+          style = {styles.textInput}
+          onChangeText={(text) => this.setState({username: text})}
+          value={this.state.username}
+          />
+        </View>
+        <View style={{flex:1, borderColor:'#d3d3d3'}}>
+
+          <TextInput
+          placeholder = "PASSWORD"
+          placeholderTextColor = "white"
+          style = {styles.textInput}
+          onChangeText={(text) => this.setState({password: text})}
+          value={this.state.password}
+          />
+
+        </View>
       <TouchableOpacity onPress={this.register}
       style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
       <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>REGISTER</Text></TouchableOpacity>
@@ -240,21 +245,36 @@ var Lobby = React.createClass({
   componentDidMount() {
     this.socket = SocketIOClient('http://localhost:8080');
     this.socket.on('battle', (user) => {
-      var accept = confirm(user + 'has challenged you! Do you accept?');
-      if (accept) {
-        var accepted = {
-          accept: true,
-          user: loggedInUser
+      var alertPromise = new Promise(function(resolve, reject) {
+        return Alert.alert(
+          'Battle!!!',
+          user + ' has challenged you! Do you accept?',
+          [
+            {text: 'Yes', onPress: () => accept = true},
+            {text: 'No', onPress: () => accept = false},
+          ],
+          { cancelable: false }
+        )
+      })
+      alertPromise.then((accept) => {
+        alert('hiii')
+        if (accept) {
+          alert("accepted");
+          var accepted = {
+            accept: true,
+            user: loggedInUser
+          }
+          this.props.navigator.push({title: "Battle", component: CharacterBio})
+          this.socket.emit('acceptMatch', accepted);
+        } else {
+          alert("not accepted");
+          var declined = {
+            accept: false,
+            user: loggedInUser
+          }
+          this.socket.emit('acceptMatch', declined);
         }
-        this.props.navigator.push({title: "Battle", component: CharacterBio})
-        this.socket.emit('acceptMatch', accepted);
-      } else {
-        var declined = {
-          accept: false,
-          user: loggedInUser
-        }
-        this.socket.emit('acceptMatch', declined);
-      }
+      })
     })
     this.socket.on('acceptMatch', (user) => {
       if (loggedInUser.username === user) {
@@ -268,7 +288,6 @@ var Lobby = React.createClass({
   },
   challenge() {
     this.socket.emit('challenge', {user: loggedInUser})
-    //
   },
   render() {
     return (
