@@ -120,6 +120,7 @@
         firstName: "",
         lastName: ""
       }
+
     },
     register() {
         fetch('http://localhost:8080/signup', {
@@ -233,58 +234,51 @@
           })
         } else {
           console.log('error');
-        }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    return {
+      users: []
+    }
+  },
+  componentDidMount() {
+    this.socket = SocketIOClient('http://localhost:8080');
+    this.socket.on('battle', (user) => {
+      var accept;
+      var alertPromise = new Promise(function(resolve, reject) {
+        Alert.alert(
+          'Battle!!!',
+          user.player1.username + ' has challenged you! Do you accept?',
+          [
+            {text: 'Yes', onPress: () => resolve(true)},
+            {text: 'No', onPress: () => resolve(false)},
+          ],
+          { cancelable: false }
+        )
       })
+      alertPromise.then((accept) => {
+        if (accept) {
+          user.player2 = loggedInUser;
+          this.socket.emit('acceptMatch', user);
+          this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}});
+        }
+        // else {
+        //   var declined = {
+        //     accept: false,
+        //     user: user,
+        //     acceptee: loggedInUser
+        //   }
+        //   this.socket.emit('acceptMatch', declined);
+        // }
+      })
+
       .catch((err) => {
         console.log(err);
       })
       return {
         users: []
       }
-    },
-    componentDidMount() {
-      this.socket = SocketIOClient('http://localhost:8080');
-      this.socket.on('battle', (user) => {
-        var alertPromise = new Promise(function(resolve, reject) {
-          return Alert.alert(
-            'Battle!!!',
-            user + ' has challenged you! Do you accept?',
-            [
-              {text: 'Yes', onPress: () => accept = true},
-              {text: 'No', onPress: () => accept = false},
-            ],
-            { cancelable: false }
-          )
-        })
-        alertPromise.then((accept) => {
-          alert('hiii')
-          if (accept) {
-            alert("accepted");
-            var accepted = {
-              accept: true,
-              user: loggedInUser
-            }
-            this.props.navigator.push({title: "Battle", component: CharacterBio})
-            this.socket.emit('acceptMatch', accepted);
-          } else {
-            alert("not accepted");
-            var declined = {
-              accept: false,
-              user: loggedInUser
-            }
-            this.socket.emit('acceptMatch', declined);
-          }
-        })
-      })
-      this.socket.on('acceptMatch', (user) => {
-        if (loggedInUser.username === user) {
-            this.props.navigator.push({title: "Battle", component: CharacterBio})
-        }
-      })
-      // this.socket.emit('message', 'hi');
-      // this.socket.on('message', (str) => {
-      //   alert('lhoohohoho')
-      // })
     },
     challenge() {
       this.socket.emit('challenge', {user: loggedInUser})
@@ -304,6 +298,35 @@
         <View style={[styles.userList]}>
           <Text style={{fontSize: 30, fontWeight: 'bold'}}>
             Go fight someone!
+    })
+    this.socket.on('acceptMatch', (user) => {
+      if (loggedInUser.username === user.player1.username) {
+          this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}})
+      }
+    })
+    // this.socket.emit('message', 'hi');
+    // this.socket.on('message', (str) => {
+    //   alert('lhoohohoho')
+    // })
+  },
+  challenge() {
+    this.socket.emit('challenge', {player1: loggedInUser})
+  },
+  render() {
+    return (
+      <View style={[styles.userList]}>
+        <Text style={{fontSize: 30, fontWeight: 'bold'}}>
+          Go fight someone!
+        </Text>
+        {this.state.users.map((user) =>
+          <TouchableOpacity style={[styles.button, styles.buttonPurple]}>
+            <Text>{user.username} # of wins: {user.totalWins}</Text>
+            </TouchableOpacity>
+        )}
+        <TouchableOpacity onPress={this.challenge} style={[styles.button, styles.buttonPurple]}>
+          <Text>
+            BATTLE
+
           </Text>
           {this.state.users.map((user) =>
             <TouchableOpacity style={[styles.button, styles.buttonPurple]}>
@@ -329,30 +352,50 @@
   var landoDes = "";
   var speakerDes = "";
 
-  var CharacterBio = React.createClass({
-    characterOne(){
+
+ 
+
+var characterBio = React.createClass({
+  characterOne(){
+    this.props.navigator.push({
+      component: characterOne,
+      title: "Lando",
+      passProps: {game: this.props.game}
+    })
+  },
+  characterTwo(){
+    this.props.navigator.push({
+      component: characterTwo,
+      title: "Speaker",
+      passProps: {game: this.props.game}
+    })
+  },
+  battle(){
+    this.socket = SocketIOClient('http://localhost:8080');
+    if (loggedInUser.username === this.props.game.player1.username) {
+      this.props.game.player1char = "Lando";
+    } else {
+      this.props.game.player2char = "Speaker"
+    }
+    this.socket.emit('character', this.props.game);
+    this.socket.on('character', (char) => {
       this.props.navigator.push({
-        component: characterOne
+        component: Battle,
+        passProps: {game: char}
       })
-    },
-    characterTwo(){
-      this.props.navigator.push({
-        component: characterTwo
-      })
-    },
-    battle(){
-      this.props.navigator.push({
-        component: Battle
-      })
-    },
-    render(){
-      return (
-        <View style={{flex: 1}}>
-         <View style={{flex: 1, backgroundColor: '#3BC356'}}>
-         <Image source={require("./images/lando.jpg")}
-         resizeMode = "stretch"
-         style={{flex:1, alignItems:'center', width:null, height:null}}/>
-         </View>
+    })
+  },
+  componentDidMount() {
+    //alert(this.props.game.player1.username);
+  },
+  render(){
+    return (
+      <View style={{flex: 1}}>
+       <View style={{flex: 1, backgroundColor: '#3BC356'}}>
+       <Image source={require("./images/lando.jpg")}
+       resizeMode = "stretch"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
+       </View>
          <View style={{flex: 1, backgroundColor: 'white'}}>
            <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
                <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: '#AF2A5F', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold', color: 'white'}}>PLAY AS LANDO</Text></TouchableOpacity>
@@ -414,30 +457,44 @@
     }
   });
 
-  var characterOne = React.createClass({
-    characterOne(){
+var characterOne = React.createClass({
+  characterOne(){
+    this.props.navigator.push({
+      title: "Lando",
+      component: characterOne,
+      passProps: {game: this.props.game}
+    })
+  },
+  characterTwo(){
+    this.props.navigator.push({
+      title: "Speaker",
+      component: characterTwo,
+      passProps: {game: this.props.game}
+    })
+  },
+  battle(){
+    this.socket = SocketIOClient('http://localhost:8080');
+    if (loggedInUser.username === this.props.game.player1.username) {
+      this.props.game.player1char = "Lando";
+    } else {
+      this.props.game.player2char = "Speaker"
+    }
+    this.socket.emit('character', this.props.game);
+    this.socket.on('character', (char) => {
       this.props.navigator.push({
-        component: characterOne
+        component: Battle,
+        passProps: {game: char}
       })
-    },
-    characterTwo(){
-      this.props.navigator.push({
-        component: characterTwo
-      })
-    },
-    battle(){
-      this.props.navigator.push({
-        component: Battle
-      })
-    },
-    render(){
-      return (
-        <View style={{flex: 1}}>
-         <View style={{flex: 1, backgroundColor: 'grey'}}>
-         <Image source={require("./images/lando.jpg")}
-         resizeMode = "stretch"
-         style={{flex:1, alignItems:'center', width:null, height:null}}/>
-         </View>
+    })
+  },
+  render(){
+    return (
+      <View style={{flex: 1}}>
+       <View style={{flex: 1, backgroundColor: 'grey'}}>
+       <Image source={require("./images/lando.jpg")}
+       resizeMode = "stretch"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
+       </View>
          <View style={{flex: 1, backgroundColor: 'white'}}>
            <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
                <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: '#AF2A5F', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold', color: 'white'}}>PLAY AS LANDO</Text></TouchableOpacity>
@@ -499,30 +556,44 @@
     }
   });
 
-  var characterTwo = React.createClass({
-    characterOne(){
+var characterTwo = React.createClass({
+  characterOne(){
+    this.props.navigator.push({
+      title: "Lando",
+      component: characterOne,
+      passProps: {game: this.props.game}
+    })
+  },
+  characterTwo(){
+    this.props.navigator.push({
+      title: "Speaker",
+      component: characterTwo,
+      passProps: {game: this.props.game}
+    })
+  },
+  battle(){
+    this.socket = SocketIOClient('http://localhost:8080');
+    if (loggedInUser.username === this.props.game.player1.username) {
+      this.props.game.player1char = "Lando";
+    } else {
+      this.props.game.player2char = "Speaker"
+    }
+    this.socket.emit('character', this.props.game);
+    this.socket.on('character', (char) => {
       this.props.navigator.push({
-        component: characterOne
+        component: Battle,
+        passProps: {game: char}
       })
-    },
-    characterTwo(){
-      this.props.navigator.push({
-        component: characterTwo
-      })
-    },
-    battle(){
-      this.props.navigator.push({
-        component: Battle
-      })
-    },
-    render(){
-      return (
-        <View style={{flex: 1}}>
-         <View style={{flex: 1, backgroundColor: 'white'}}>
-         <Image source={require("./images/speaker.jpg")}
-         resizeMode = "stretch"
-         style={{flex:1, alignItems:'center', width:null, height:null}}/>
-         </View>
+    })
+  },
+  render(){
+    return (
+      <View style={{flex: 1}}>
+       <View style={{flex: 1, backgroundColor: 'white'}}>
+       <Image source={require("./images/speaker.jpg")}
+       resizeMode = "stretch"
+       style={{flex:1, alignItems:'center', width:null, height:null}}/>
+       </View>
          <View style={{flex: 1, backgroundColor: 'white'}}>
            <View style={{flex: 1, backgroundColor: 'yellow', flexDirection: 'row'}}>
                <TouchableOpacity onPress={this.characterOne} style={{flex: 1, backgroundColor: '#AF2A5F', color: 'white', justifyContent: 'center', alignItems: 'center'}}><Text style={{fontWeight: 'bold', color: 'white'}}>PLAY AS LANDO</Text></TouchableOpacity>
@@ -579,6 +650,7 @@
            </TouchableOpacity>
            </View>
          </View>
+
         </View>
       )
     }
@@ -705,9 +777,32 @@
           </View>
           </View>
         </View>
+
       )
     }
   })
+
+
+
+var Leadership = React.createClass({
+  getInitialState() {
+    return {
+      users: [{name: 'Daniel', ranking: 2}, {name: 'Yum', ranking: 3}, {name: 'Yak', ranking: 2}]
+    };
+  },
+  render() {
+    return (
+      <View>
+      {this.state.users.map((user) =>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Lobby", component: Lobby})} style={[styles.button, styles.buttonPurple]}>
+          <Text>{user.name} #{user.ranking}</Text>
+        </TouchableOpacity>
+      )}
+      </View>
+    )
+  }
+})
+
 
   var FinalBattle = React.createClass({
     getInitialState(){

@@ -114,23 +114,35 @@ var server = require('http').createServer(app);
 var socketIo = require('socket.io');
 var io = socketIo(server);
 //game ids to make sure no one enters a game now
-var liveGames = {}
+var liveGame;
 
 io.on('connection', function(socket) {
   // listen for message event
-  var player1 = {};
-  var player2 = {};
   socket.on('challenge', (challenge) => {
-    player1 = challenge;
-    socket.broadcast.emit('battle', player1.user.username)
+    socket.broadcast.emit('battle', challenge)
   });
 
   socket.on('acceptMatch', (accepted) => {
-    if (accepted.accept) {
-      player2 = accepted;
-      socket.emit('acceptMatch', player1.username)
-    } else {
+      console.log('player1: ' + accepted.player1.username);
+      console.log('player2: ' + accepted.player2.username);
+      socket.broadcast.emit('acceptMatch', accepted);
+  })
 
+  //receive the game object from both players, and then store the character they picked, and send it out to them again
+  //then send out if both character exist, such that the two players can now move to the battle
+  socket.on('character', (character) => {
+    console.log(character + 'characterrrs');
+    if (liveGame) {
+      console.log(liveGame.player2char + " socket game ");
+      if (character.player2char) {
+        liveGame.player1char = character.player1char;
+        socket.broadcast.emit('character', liveGame);
+      } else {
+        liveGame.player2char = character.player2char;
+        socket.broadcast.emit('character', liveGame);
+      }
+    } else {
+      liveGame = character;
     }
   })
 });
