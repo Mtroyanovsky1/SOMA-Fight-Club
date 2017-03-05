@@ -88,11 +88,11 @@ app.use('/', routes);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
 
 // error handlers
 
@@ -122,7 +122,7 @@ io.on('connection', function(socket) {
   var player2 = {};
   socket.on('challenge', (challenge) => {
     player1 = challenge;
-    socket.broadcast.emit('battle', player1.username)
+    socket.broadcast.emit('battle', player1.user.username)
   });
 
   socket.on('acceptMatch', (accepted) => {

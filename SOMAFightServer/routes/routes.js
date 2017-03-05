@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require('../models');
 var User = models.User;
 var Game = models.Game;
-var Charatcer = models.Character;
+var Character = models.Character;
 var Card = models.Card;
 var socketio = require('socket.io')
 
@@ -70,7 +70,7 @@ router.get('/logout', function(req, res) {
 
 
 router.get('/challengers', function(req, res) {
-  User.find({online: true, inBattle: false}, function(err, users) {
+  User.find({inBattle: false}, function(err, users) {
     if(err) {
       res.json({
         success: false,
