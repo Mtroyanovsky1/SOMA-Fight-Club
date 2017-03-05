@@ -42,13 +42,19 @@ var Login = React.createClass({
       title: "mainMenu"
     });
   },
+  main1() {
+    this.props.navigator.push({
+      component: mainMenu,
+      title: "mainMenu"
+    });
+  },
   login() {
-    fetch('http://localhost:8080/login', {
+    fetch('https://localhost:8080/login', {
       method: 'POST',
-      body: {
-        username: this.state.username,
-        password: this.state.password
-      }
+      body: JSON.stringify({
+        'username': this.state.username,
+        'password': this.state.password
+      })
     })
     .then((res) => res.json())
     .then((responseJson) => {
@@ -93,7 +99,7 @@ var Login = React.createClass({
       <TouchableOpacity onPress={this.register}
       style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
       <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>REGISTER</Text></TouchableOpacity>
-      <TouchableOpacity onPress={this.login}
+      <TouchableOpacity onPress={this.main1}
       style={{backgroundColor:'#AF2A5F', flex:1, justifyContent:'center', opacity: 0.8, alignItems:'center'}}>
       <Text style={{color:'#fff', fontSize:12, fontWeight:'700'}}>LOG IN</Text></TouchableOpacity>
       </View>
@@ -204,7 +210,7 @@ var mainMenu = React.createClass({
           <Text style={[styles.headerText]}>Welcome to</Text>
           <Text style={[styles.headerText]}>the fight</Text>
         </View>
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: Lobby})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: CharacterBio})} style={[styles.button, styles.buttonPurple]}>
           <Text style={[styles.buttonText]}>BATTLE</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.props.navigator.push({title: "Leadership", component: Leadership})} style={[styles.button, styles.buttonGreen]}>
