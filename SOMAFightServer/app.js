@@ -10,6 +10,8 @@ var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI;
 var socketio = require('socket.io');
+var models = require('./models');
+var Game = models.Game;
 
 var REQUIRED_ENV = "MONGODB_URI".split(" ");
 
@@ -123,31 +125,73 @@ io.on('connection', function(socket) {
   });
 
   socket.on('acceptMatch', (accepted) => {
-      console.log('player1: ' + accepted.player1.username);
-      console.log('player2: ' + accepted.player2.username);
       socket.broadcast.emit('acceptMatch', accepted);
   })
 
   //receive the game object from both players, and then store the character they picked, and send it out to them again
   //then send out if both character exist, such that the two players can now move to the battle
   socket.on('character', (character) => {
-    console.log(character + 'characterrrs');
+    console.log(character.player1char + 'character of player1');
+    console.log(character.player1.username + 'username of player1');
+    console.log(character.player2char + 'character of player2');
+    console.log(character.player2.username + 'username of player2');
+    console.log(" ");
     if (liveGame) {
-      console.log(liveGame.player2char + " socket game ");
+      console.log(liveGame.player1.username + 'character of player1 on livegame');
+      console.log(liveGame.player1char + 'username of player1 on liverame');
+      console.log(liveGame.player2char + 'username of player2 on liverame');
+    } else {
+      console.log('LIVE GAME IS NOT AVAIL YET');
+    }
+
+    if (liveGame) {
+      console.log(liveGame + "game ");
+
       if (character.player2char) {
-        liveGame.player1char = character.player1char;
+        liveGame.player2char = character.player2char;
+        console.log(liveGame.player1char + "player1char game ");
+        console.log(liveGame.player2char + "player2char game ");
         socket.broadcast.emit('character', liveGame);
       } else {
-        liveGame.player2char = character.player2char;
+        liveGame.player1char = character.player1char;
+        console.log(liveGame.player1char + "player1char game ");
+        console.log(liveGame.player2char + "player2char game ");
         socket.broadcast.emit('character', liveGame);
       }
     } else {
       liveGame = character;
+      socket.broadcast.emit('character', liveGame);
     }
   })
 });
 
-
+// Game.findOne({'player1enter': true}, function(err, game) {
+//   if (err) {
+//     console.log(err);
+//   }
+//   if (!game) {
+//
+//   } else {
+//
+//   }
+// })
+// var game = new models.User({
+//   player1: req.body.firstName,
+//   player2: req.body.lastName
+// });
+// user.save(function(err, user) {
+//   if (err) {
+//     res.json({
+//       success: false,
+//       error: err + 'This action failed'
+//     })
+//   } else {
+//     res.json({
+//       success: true,
+//       user: user
+//     })
+//   }
+// });
 
 
 

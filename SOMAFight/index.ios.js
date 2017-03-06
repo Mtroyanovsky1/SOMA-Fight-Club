@@ -312,37 +312,51 @@ var landoDes = "";
 var speakerDes = "";
 
 var characterBio = React.createClass({
+  getInitialState() {
+    return {
+      game: this.props.game
+    }
+  },
   characterOne(){
     this.props.navigator.push({
       component: characterOne,
       title: "Lando",
-      passProps: {game: this.props.game}
+      passProps: {game: this.state.game}
     })
   },
   characterTwo(){
     this.props.navigator.push({
       component: characterTwo,
       title: "Speaker",
-      passProps: {game: this.props.game}
+      passProps: {game: this.state.game}
     })
   },
   battle(){
-    this.socket = SocketIOClient('http://localhost:8080');
-    if (loggedInUser.username === this.props.game.player1.username) {
-      this.props.game.player1char = "Lando";
+    if (loggedInUser.username === this.state.game.player1.username) {
+      this.state.game.player1char = "Lando";
     } else {
-      this.props.game.player2char = "Speaker"
+      this.state.game.player2char = "Lando"
     }
-    this.socket.emit('character', this.props.game);
-    this.socket.on('character', (char) => {
+    if (this.state.game.player1char && this.state.game.player2char) {
       this.props.navigator.push({
         component: Battle,
-        passProps: {game: char}
+        passProps: {game: this.state.game}
       })
-    })
+    }
+    this.socket.emit('character', this.state.game);
   },
   componentDidMount() {
-    //alert(this.props.game.player1.username);
+    this.socket = SocketIOClient('http://localhost:8080');
+    this.socket.on('character', (char) => {
+      if (char.player1char && char.player2char) {
+        this.props.navigator.push({
+          component: Battle,
+          passProps: {game: char}
+        })
+      } else {
+        this.state.game = char;
+      }
+    })
   },
   render(){
     return (
@@ -374,33 +388,50 @@ var characterBio = React.createClass({
 });
 
 var characterOne = React.createClass({
+  getInitialState() {
+    return {
+      game: this.props.game
+    }
+  },
   characterOne(){
     this.props.navigator.push({
-      title: "Lando",
       component: characterOne,
-      passProps: {game: this.props.game}
+      title: "Lando",
+      passProps: {game: this.state.game}
     })
   },
   characterTwo(){
     this.props.navigator.push({
-      title: "Speaker",
       component: characterTwo,
-      passProps: {game: this.props.game}
+      title: "Speaker",
+      passProps: {game: this.state.game}
     })
   },
   battle(){
-    this.socket = SocketIOClient('http://localhost:8080');
-    if (loggedInUser.username === this.props.game.player1.username) {
-      this.props.game.player1char = "Lando";
+    if (loggedInUser.username === this.state.game.player1.username) {
+      this.state.game.player1char = "Lando";
     } else {
-      this.props.game.player2char = "Speaker"
+      this.state.game.player2char = "Lando"
     }
-    this.socket.emit('character', this.props.game);
-    this.socket.on('character', (char) => {
+    if (this.state.game.player1char && this.state.game.player2char) {
       this.props.navigator.push({
         component: Battle,
-        passProps: {game: char}
+        passProps: {game: this.state.game}
       })
+    }
+    this.socket.emit('character', this.state.game);
+  },
+  componentDidMount() {
+    this.socket = SocketIOClient('http://localhost:8080');
+    this.socket.on('character', (char) => {
+      if (char.player1char && char.player2char) {
+        this.props.navigator.push({
+          component: Battle,
+          passProps: {game: char}
+        })
+      } else {
+        this.state.game = char;
+      }
     })
   },
   render(){
@@ -433,33 +464,50 @@ var characterOne = React.createClass({
 });
 
 var characterTwo = React.createClass({
+  getInitialState() {
+    return {
+      game: this.props.game
+    }
+  },
   characterOne(){
     this.props.navigator.push({
-      title: "Lando",
       component: characterOne,
-      passProps: {game: this.props.game}
+      title: "Lando",
+      passProps: {game: this.state.game}
     })
   },
   characterTwo(){
     this.props.navigator.push({
-      title: "Speaker",
       component: characterTwo,
-      passProps: {game: this.props.game}
+      title: "Speaker",
+      passProps: {game: this.state.game}
     })
   },
   battle(){
-    this.socket = SocketIOClient('http://localhost:8080');
-    if (loggedInUser.username === this.props.game.player1.username) {
-      this.props.game.player1char = "Lando";
+    if (loggedInUser.username === this.state.game.player1.username) {
+      this.state.game.player1char = "Speaker";
     } else {
-      this.props.game.player2char = "Speaker"
+      this.state.game.player2char = "Speaker"
     }
-    this.socket.emit('character', this.props.game);
-    this.socket.on('character', (char) => {
+    if (this.state.game.player1char && this.state.game.player2char) {
       this.props.navigator.push({
         component: Battle,
-        passProps: {game: char}
+        passProps: {game: this.state.game}
       })
+    }
+    this.socket.emit('character', this.state.game);
+  },
+  componentDidMount() {
+    this.socket = SocketIOClient('http://localhost:8080');
+    this.socket.on('character', (char) => {
+      if (char.player1char && char.player2char) {
+        this.props.navigator.push({
+          component: Battle,
+          passProps: {game: char}
+        })
+      } else {
+        this.state.game = char;
+      }
     })
   },
   render(){
@@ -494,11 +542,10 @@ var characterTwo = React.createClass({
 var Battle = React.createClass({
   setInitialState() {
     return {
-
     }
   },
   componentDidMount() {
-
+    alert(this.props.game + "the game");
   },
   render() {
     return (
@@ -507,7 +554,7 @@ var Battle = React.createClass({
         resizeMode = "stretch"
         style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'flex-end'}}>
         <View style={[styles.battleCharacterView]} >
-          <Text>{this.props.game.player1}</Text>
+          <Text>{this.props.game.player1.username}</Text>
           <View style={[styles.yourChar]}>
             <TouchableOpacity onPress={() => this.props.navigator.pop(0)} style={[styles.button]}>
               <Text style={[styles.buttonText]}>Main Menu</Text>
