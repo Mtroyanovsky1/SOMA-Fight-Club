@@ -131,31 +131,12 @@ io.on('connection', function(socket) {
   //receive the game object from both players, and then store the character they picked, and send it out to them again
   //then send out if both character exist, such that the two players can now move to the battle
   socket.on('character', (character) => {
-    console.log(character.player1char + 'character of player1');
-    console.log(character.player1.username + 'username of player1');
-    console.log(character.player2char + 'character of player2');
-    console.log(character.player2.username + 'username of player2');
-    console.log(" ");
     if (liveGame) {
-      console.log(liveGame.player1.username + 'character of player1 on livegame');
-      console.log(liveGame.player1char + 'username of player1 on liverame');
-      console.log(liveGame.player2char + 'username of player2 on liverame');
-    } else {
-      console.log('LIVE GAME IS NOT AVAIL YET');
-    }
-
-    if (liveGame) {
-      console.log(liveGame + "game ");
-
       if (character.player2char) {
         liveGame.player2char = character.player2char;
-        console.log(liveGame.player1char + "player1char game ");
-        console.log(liveGame.player2char + "player2char game ");
         socket.broadcast.emit('character', liveGame);
       } else {
         liveGame.player1char = character.player1char;
-        console.log(liveGame.player1char + "player1char game ");
-        console.log(liveGame.player2char + "player2char game ");
         socket.broadcast.emit('character', liveGame);
       }
     } else {
