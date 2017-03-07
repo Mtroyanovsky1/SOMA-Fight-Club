@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-
+global.__DEV__=false;
 import React, { Component } from 'react';
 import SocketIOClient from 'socket.io-client';
 import {
@@ -18,7 +18,8 @@ import {
   ListView,
   Animated,
   KeyboardAvoidingView,
-  Alert
+  Alert,
+  Easing
 } from 'react-native';
 
 var loggedInUser = {}
@@ -245,7 +246,6 @@ var Lobby = React.createClass({
   componentDidMount() {
     this.socket = SocketIOClient('http://localhost:8080');
     this.socket.on('battle', (user) => {
-      var accept;
       var alertPromise = new Promise(function(resolve, reject) {
         Alert.alert(
           'Battle!!!',
@@ -263,14 +263,6 @@ var Lobby = React.createClass({
           this.socket.emit('acceptMatch', user);
           this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}});
         }
-        // else {
-        //   var declined = {
-        //     accept: false,
-        //     user: user,
-        //     acceptee: loggedInUser
-        //   }
-        //   this.socket.emit('acceptMatch', declined);
-        // }
       })
     })
     this.socket.on('acceptMatch', (user) => {
@@ -314,7 +306,7 @@ var speakerDes = "";
 var characterBio = React.createClass({
   getInitialState() {
     return {
-      game: this.props.game
+      game: this.props.game //This is an object with both players
     }
   },
   characterOne(){
@@ -354,7 +346,9 @@ var characterBio = React.createClass({
           passProps: {game: char}
         })
       } else {
-        this.state.game = char;
+        this.setState({
+          game: char
+        })
       }
     })
   },
@@ -667,30 +661,20 @@ var Battle = React.createClass({
     this.props.game
     return {
       defaultAttk: 10,
-      player1Score: 0,
-      player2Score: 0,
-      countLeft: 0,
-      countRight: 0,
+      playerScore: 0,
+      oppScore: 0,
+      userCount: 0,
+      oppCount: 0,
       confirmed: false,
+      selection: {},
       timer: 10,
       attkOrDef: true,
       round: 1
     }
   },
-  clickLeft(){
-    console.log(this.props.attk)
-    if(this.state.attkOrDef) {
-      this.setState({countLeft: this.state.countLeft + this.state.defaultAttk})
-    } else {
-      this.setState({countRight: this.state.countRight - this.state.defaultAttk})
-    }
-  },
-  clickRight(){
-    if(this.state.attkOrDef) {
-      this.setState({countRight: this.state.countRight + this.state.defaultAttk})
-    } else {
-      this.setState({countLeft: this.state.countLeft - this.state.defaultAttk})
-    }
+  click(){
+    this.setState({userCount: this.state.userCount + this.state.defaultAttk})
+    // this.socket.emit('counter', {yourCount: this.state.count});
   },
   selectAbility() {
     Alert.alert(
@@ -698,18 +682,16 @@ var Battle = React.createClass({
       'Deal 10 damage points per hit',
       [
         {text: 'Yes', onPress: () => {
-
           this.setState({defaultAttk: 10, confirmed: true, attkOrDef: true});
           var roundTimer = setInterval(() => {
             this.setState({
               timer: this.state.timer - 1
             })
             if(this.state.timer === 0) {
+              this.socket.emit('endRound', {player: loggedInUser.username, score: this.state.userCount, attkOrDef: true});
               this.setState({
-                player1Score: this.state.player1Score + this.state.countLeft,
-                player2Score: this.state.player2Score + this.state.countRight,
-                countLeft: 0,
-                countRight: 0,
+                userCount: 0,
+                oppCount: 0,
                 confirmed: false,
                 timer: 10,
                 round: this.state.round + 1
@@ -730,18 +712,16 @@ selectAbility2() {
     'Deflect 10 damage points per hit',
     [
       {text: 'Yes', onPress: () => {
-
         this.setState({defaultAttk: 10, confirmed: true, attkOrDef: false});
         var roundTimer = setInterval(() => {
           this.setState({
             timer: this.state.timer - 1
           })
           if(this.state.timer === 0) {
+            this.socket.emit('endRound', {player: loggedInUser.username, score: this.state.userCount, attkOrDef: false});
             this.setState({
-              player1Score: this.state.player1Score + this.state.countLeft,
-              player2Score: this.state.player2Score +this.state.countRight,
-              countLeft: 0,
-              countRight: 0,
+              userCount: 0,
+              oppCount: 0,
               confirmed: false,
               timer: 10,
               round: this.state.round + 1
@@ -756,78 +736,99 @@ selectAbility2() {
   {cancelable: false}
 )
 },
-render() {
-  if(this.props.scoreLeft) {
+componentDidMount() {
+  this.socket = SocketIOClient('http://localhost:8080');
+  this.socket.on('endRound', (scores) => {
     this.setState({
-      Player1Score: this.props.scoreLeft
+      playerScore: scores.score1,
+      oppScore: scores.score2
     })
-  }
-  if(this.props.scoreRight) {
-    this.setState({
-      Player2Score: this.props.scoreRight
-    })
-  }
-  if(this.state.round === 4){
-    if(this.state.player1Score > this.state.player2Score){
-      Alert.alert(
-        'Player 1 Wins',
-        'Player 2 sucks ass',
-        [
-          {text: 'Go to Stats', onPress: () => {
-
-            this.props.navigator.push({
-              component: GameStats,
-              passProps: {player1: this.state.player1Score, player2: this.state.player2Score}
-            })
-          }
-        }
-      ],
-      {canceable: false}
-    )
-  } else {
-    Alert.alert(
-      'Player 2 Wins',
-      'Player 1 sucks ass',
-      [
-        {text: 'Go to Stats', onPress: () => {
-
-          this.props.navigator.push({
-            component: GameStats,
-            passProps: {player1: this.state.player1Score, player2: this.state.player2Score}
-          })
-        }
+    if (this.state.round === 4) {
+      this.socket.emit('finish', true);
+    }
+    this.socket.on('finish', (winner) => {
+      if (winner.win === 1 && winner.game.player1char === 'Lando' && loggedInUser.username === winner.game.player1.username) {
+        this.winnerLando();
+      } else if (winner.win === 1 && winner.game.player1char === 'Lando' && loggedInUser.username !== winner.game.player1.username) {
+        this.loserLando();
+      } else if (winner.win === 2 && winner.game.player2char === 'Lando' && loggedInUser.username === winner.game.player2.username) {
+        this.winnerLando();
+      } else if (winner.win === 2 && winner.game.player2char === 'Lando' && loggedInUser.username !== winner.game.player2.username) {
+        this.loserLando();
+      } else if (winner.win === 1 && winner.game.player1char === 'Speaker' && loggedInUser.username === winner.game.player1.username) {
+        this.winnerSpeaker();
+      } else if (winner.win === 1 && winner.game.player1char === 'Speaker' && loggedInUser.username !== winner.game.player1.username) {
+        this.loserSpeaker();
+      } else if (winner.win === 2 && winner.game.player2char === 'Speaker' && loggedInUser.username === winner.game.player2.username) {
+        this.winnerSpeaker();
+      } else if (winner.win === 2 && winner.game.player2char === 'Speaker' && loggedInUser.username !== winner.game.player2.username){
+        this.loserSpeaker();
+      }  else {
+        alert('we are fucked');
       }
-    ],
-    {canceable: false}
-  )
-}
-}
+    })
+  })
+  // this.socket.on('counter1', (oppCount) => {
+  //   this.setState({
+  //     oppCount: oppCount.yourCount
+  //   })
+  // })
+},
+winnerLando() {
+    this.props.navigator.push({
+      component: Books,
+      passProps: {result: "win"}
+    })
+},
+
+winnerSpeaker() {
+  this.props.navigator.push({
+    component: Coffee,
+    passProps: {result: "win"}
+  })
+},
+
+loserLando() {
+    this.props.navigator.push({
+      component: Books,
+      passProps: {result: "lose"}
+    })
+},
+
+loserSpeaker() {
+    this.props.navigator.push({
+      component: Coffee,
+      passProps: {result: "lose"}
+    })
+},
+render() {
 return (
   <View style={[styles.battleOutline]}>
   {this.state.confirmed ?
-    (<Image source={require("./finaldestination.jpg")}
+    (<Image onPress={this.click} source={require("./finaldestination.jpg")}
     resizeMode = "stretch"
     style={{flex:1, width:null, height:null, justifyContent:'flex-end'}}>
     <View style={{flex: 1, backgroundColor: 'none', flexDirection: 'row'}}>
     <View style={{flex: 1, flexDirection: 'row'}}>
-    <TouchableOpacity onPress={this.clickLeft} style={{backgroundColor: 'transparent', flex: 1}}>
-    <Text style={[styles.buttonScore]}>SCORE{"\n"} {this.state.countLeft}</Text>
+    <TouchableOpacity onPress={this.click} style={{backgroundColor: 'transparent', flex: 1}}>
+    <Text style={[styles.buttonScore]}>SCORE{"\n"} {this.state.userCount}</Text>
     </TouchableOpacity>
     </View>
-    <View style={{flex: 1, backgroundColor: 'transparent'}} >
-    <TouchableOpacity onPress={this.clickRight} style={{backgroundColor: 'transparent', flex: 1}}>
-    <Text style={[styles.buttonScore]}>SCORE{"\n"} {this.state.countRight}</Text>
+    <View style={{flex: 1, flexDirection: 'row'}}>
+    <TouchableOpacity onPress={this.click} style={{backgroundColor: 'transparent', flex: 1}}>
+    <Text style={[styles.buttonScore]}>SCORE{"\n"} {this.state.oppCount}</Text>
     </TouchableOpacity>
     </View>
+
     </View>
     <View style={{flex: 1, backgroundColor: 'none', flexDirection: 'row'}}>
     <View style={{flex: 1, flexDirection: 'row'}}>
-    <TouchableOpacity onPress={this.clickLeft} style={{backgroundColor: 'transparent', flex: 1, justifyContent: 'flex-end'}}>
+    <TouchableOpacity onPress={this.click} style={{backgroundColor: 'transparent', flex: 1, justifyContent: 'flex-end'}}>
     <Text style={[styles.buttonScore]}>ROUND{"\n"} {this.state.round}</Text>
     </TouchableOpacity>
     </View>
     <View style={{flex: 1, backgroundColor: 'transparent'}} >
-    <TouchableOpacity onPress={this.clickRight} style={{backgroundColor: 'transparent', flex: 1, justifyContent: 'flex-end'}}>
+    <TouchableOpacity onPress={this.click} style={{backgroundColor: 'transparent', flex: 1, justifyContent: 'flex-end'}}>
     <Text style={[styles.buttonScore]}>TIMER{"\n"} {this.state.timer}</Text>
     </TouchableOpacity>
     </View>
@@ -842,38 +843,40 @@ return (
     <View style={{flex: 1, backgroundColor: 'none'}} >
     </View>
     </Image>)}
+
+
     <View style={[styles.battleStatusView]}>
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
     <Text style={{color: 'black', fontSize: 25, fontWeight: 'bold'}}>SCOREBOARD</Text>
     </View>
     <View style={{flexDirection: 'row', flex:2}}>
-    <TouchableOpacity onPress={this.clickLeft} style={[styles.statusView]}>
+    <TouchableOpacity onPress={this.click} style={[styles.statusView]}>
     <Image source={require("./images/score1.png")}
     resizeMode = "contain"
     style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
     <View>
-    <Text style={{color: 'black', fontSize: 50, fontWeight: 'bold', textAlign: 'center', backgroundColor: 'transparent' , textShadowColor: 'black'}}>{this.state.player1Score}</Text>
+    <Text style={{color: 'black', fontSize: 50, fontWeight: 'bold', textAlign: 'center', backgroundColor: 'transparent' , textShadowColor: 'black'}}>{this.state.playerScore}</Text>
     </View>
     </Image>
     </TouchableOpacity>
-    <TouchableOpacity onPress={this.clickRight} style={[styles.statusView]}>
+    <TouchableOpacity onPress={this.click} style={[styles.statusView]}>
     <Image source={require("./images/score2.jpg")}
     resizeMode = "contain"
     style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
     <View>
-    <Text style={{color: 'black', fontSize: 50, fontWeight: 'bold', textAlign: 'center', backgroundColor: 'transparent', textShadowColor: 'black'}}>{this.state.player2Score}</Text>
+    <Text style={{color: 'black', fontSize: 50, fontWeight: 'bold', textAlign: 'center', backgroundColor: 'transparent', textShadowColor: 'black'}}>{this.state.oppScore}</Text>
     </View>
     </Image>
     </TouchableOpacity>
     </View>
     <View style={{flexDirection: 'row', flex:2 , backgroundColor: '#AF2A5F'}}>
-    <TouchableOpacity className='ab2' onPress={this.selectAbility} style={{flex: 1, padding: 10, backgroundColor: 'none'}}>
+    <TouchableOpacity className='ab1' onPress={this.selectAbility} style={{flex: 1, padding: 10, backgroundColor: 'none'}}>
     <Image source={require("./images/attack.png")}
     resizeMode = "contain"
     style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
     </Image>
     </TouchableOpacity>
-    <TouchableOpacity className='ab2' onPress={this.selectAbility} style={{flex: 2, padding: 10, backgroundColor: 'none', justifyContent: 'center'}}>
+    <TouchableOpacity className='ab1' onPress={this.selectAbility} style={{flex: 2, padding: 10, backgroundColor: 'none', justifyContent: 'center'}}>
     <View>
     <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>ATTACK</Text>
     </View>
@@ -910,6 +913,304 @@ return (
 })
 
 
+var Books = React.createClass({
+  getInitialState() {
+    return {
+      defaultAttk: 10,
+      player1Score: 0,
+      player2Score: 0,
+      countLeft: 0,
+      countRight: 0,
+      confirmed: false,
+      timer: 10,
+      attkOrDef: true,
+      round: 1,
+      spinValue: new Animated.Value(0),
+      springValue: new Animated.Value(1),
+      animatedValue: new Animated.Value(0)
+    }
+  },
+  componentDidMount () {
+  this.spin();
+  this.spring();
+  this.animate();
+  },
+  alert() {
+    if (this.props.result === 'win') {
+      alert("YOU WON! CONGRATS GO TELL PRATH.... WHOOPS HE'S IN HAWAII");
+    } else {
+      alert("YOU LOST! IF YOU'RE NOT FIRST, YOU'RE LAST!!!!!!!!!");
+    }
+  },
+  spin () {
+      this.state.spinValue.setValue(0)
+      Animated.timing(
+        this.state.spinValue,
+        {
+          toValue: 1,
+          duration: 4000,
+          easing: Easing.linear
+        }
+      ).start(() => this.spin())
+  },
+  spring () {
+  this.state.springValue.setValue(0.3)
+  Animated.spring(
+    this.state.springValue,
+    {
+      toValue: 1,
+      friction: 1
+    }
+  ).start(() => this.spring())
+},
+animate () {
+  this.state.animatedValue.setValue(0)
+  Animated.timing(
+    this.state.animatedValue,
+    {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.linear
+    }
+  ).start(() => this.animate())
+},
+render() {
+  const spin = this.state.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['360deg', '0deg']
+  })
+  const spin1 = this.state.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['0deg', '360deg']
+  })
+  const spin2 = this.state.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['0deg', '180deg']
+  })
+  const marginLeft = this.state.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 50]
+  })
+  const marginTop = this.state.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 200]
+  })
+  const marginBottom = this.state.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [200, 0]
+  })
+  const movingMargin = this.state.animatedValue.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0, 300, 0]
+  })
+  const rotateX = this.state.animatedValue.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: ['0deg', '180deg', '0deg']
+  })
+  return (
+    <View style={[styles.battleOutline]}>
+      <Image source={require("./finaldestination.jpg")}
+      resizeMode = "stretch"
+      style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+      <Animated.Image
+        style={{flex: 1, width: 175, height: 175, marginLeft }}
+          source={{uri: 'https://images-na.ssl-images-amazon.com/images/I/517wplLjOXL._SX329_BO1,204,203,175_.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotate: spin1}] }}
+          source={{uri: 'https://images-na.ssl-images-amazon.com/images/I/517wplLjOXL._SX329_BO1,204,203,175_.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, marginTop }}
+          source={{uri: 'https://img1.od-cdn.com/ImageType-400/1191-1/EBE/E52/69/%7BEBEE5269-D469-45DF-A6A6-CB62081EFAB2%7DImg400.jpg'}}
+      />
+      </View>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+      <Animated.Image
+        style={{ flex: 1,  width: 175, height: 175, marginTop }}
+          source={{uri: 'https://ceosatgsu.files.wordpress.com/2012/01/book2.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotate: spin2}]}}
+          source={{uri: 'https://s-media-cache-ak0.pinimg.com/736x/50/dc/34/50dc34a07a26d43bf568f5b3e01ad6f3.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotateX}] }}
+          source={{uri: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAQyAAAAJDliYjAyYmIxLWM5OGEtNDBhNS1iNTM1LTVkZjJlY2IwNDU0MQ.jpg'}}
+      />
+      </View>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotateX}] }}
+          source={{uri: 'https://s-media-cache-ak0.pinimg.com/736x/04/e5/97/04e597e8e78a47d822602899f4d705a0.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, marginLeft: movingMargin }}
+          source={{uri: 'https://images-na.ssl-images-amazon.com/images/I/41EV9hbgbCL._SX327_BO1,204,203,175_.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, marginTop }}
+          source={{uri: 'https://images-na.ssl-images-amazon.com/images/I/51NzjhIhK0L._SX322_BO1,204,203,175_.jpg'}}
+      />
+      </View>
+
+      </Image>
+      </View>
+    )
+  }
+})
+
+
+var Coffee = React.createClass({
+  getInitialState() {
+    return {
+      defaultAttk: 10,
+      player1Score: 0,
+      player2Score: 0,
+      countLeft: 0,
+      countRight: 0,
+      confirmed: false,
+      timer: 10,
+      attkOrDef: true,
+      round: 1,
+      spinValue: new Animated.Value(0),
+      springValue: new Animated.Value(1),
+      animatedValue: new Animated.Value(0)
+    }
+  },
+  componentDidMount () {
+  this.spin();
+  this.spring();
+  this.animate();
+  },
+  alert() {
+    if (this.props.result === 'win') {
+      alert("YOU WON! CONGRATS GO TELL PRATH.... WHOOPS HE'S IN HAWAII");
+    } else {
+      alert("YOU LOST! IF YOU'RE NOT FIRST, YOU'RE LAST!!!!!!!!!");
+    }
+  },
+  spin () {
+      this.state.spinValue.setValue(0)
+      Animated.timing(
+        this.state.spinValue,
+        {
+          toValue: 1,
+          duration: 4000,
+          easing: Easing.linear
+        }
+      ).start(() => this.spin())
+  },
+  spring () {
+  this.state.springValue.setValue(0.3)
+  Animated.spring(
+    this.state.springValue,
+    {
+      toValue: 1,
+      friction: 1
+    }
+  ).start(() => this.spring())
+},
+animate () {
+  this.state.animatedValue.setValue(0)
+  Animated.timing(
+    this.state.animatedValue,
+    {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.linear
+    }
+  ).start(() => this.animate())
+},
+render() {
+  const spin = this.state.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['360deg', '0deg']
+  })
+  const spin1 = this.state.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['0deg', '360deg']
+  })
+  const spin2 = this.state.spinValue.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['0deg', '180deg']
+  })
+  const marginLeft = this.state.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 50]
+  })
+  const marginTop = this.state.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 200]
+  })
+  const marginBottom = this.state.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [200, 0]
+  })
+  const movingMargin = this.state.animatedValue.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0, 300, 0]
+  })
+  const rotateX = this.state.animatedValue.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: ['0deg', '180deg', '0deg']
+  })
+  return (
+
+    <View  style={[styles.battleOutline]}>
+      <Image source={require("./finaldestination.jpg")}
+      resizeMode = "stretch"
+      style={{flex:1, alignItems:'center', width:null, height:null, justifyContent:'center'}}>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+      <Animated.Image
+        style={{flex: 1, width: 175, height: 175, marginLeft }}
+          source={{uri: 'https://openclipart.org/image/2400px/svg_to_png/22305/pitr-Coffee-cup-icon.png'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotate: spin1}] }}
+          source={{uri: 'https://www.dunkindonuts.com/content/dam/Dunkin_Donuts/coffee-leadership/Facebook-Icon.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, marginTop }}
+          source={{uri: 'https://www.asone.co.uk/wp-content/uploads/2014/01/google-plus-icon-coffee.png'}}
+      />
+      </View>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+      <Animated.Image
+        style={{ flex: 1,  width: 175, height: 175, marginTop }}
+          source={{uri: 'https://orig07.deviantart.net/10d3/f/2016/021/b/1/001_by_tilantha_hansanath-d9or6zu.png'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotate: spin2}]}}
+          source={{uri: 'https://www.dunkindonuts.com/content/dam/Dunkin_Donuts/coffee-leadership/Facebook-Icon.jpg'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotateX}] }}
+          source={{uri: 'https://cdn4.iconfinder.com/data/icons/Starbucks_coffee/PNG/512x512/starbucks_coffee_3.png'}}
+      />
+      </View>
+      <View style={{flex: 1, flexDirection: 'row'}}>
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, transform: [{rotateX}] }}
+          source={{uri: 'https://www.iconninja.com/files/185/697/164/youtube-icon.png'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, marginLeft: movingMargin }}
+          source={{uri: 'http://annerallen.com/wp-content/uploads/2016/04/6.png'}}
+      />
+      <Animated.Image
+        style={{ flex: 1, width: 175, height: 175, marginTop }}
+          source={{uri: 'https://cdn4.iconfinder.com/data/icons/Starbucks_coffee/PNG/512x512/starbucks_coffee_3.png'}}
+      />
+      </View>
+
+      </Image>
+      </View>
+
+    )
+  }
+})
 
 
 var Leadership = React.createClass({
