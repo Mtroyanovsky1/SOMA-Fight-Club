@@ -13,9 +13,15 @@ var userSchema = new mongoose.Schema({
 
 
 var gameSchema = new mongoose.Schema({
-  loser: String,
-  winner: String,
-  time: Date
+  player1char: String,
+  player2char: String,
+  player1: Object,
+  player2: Object,
+  score1: Number,
+  score2: Number,
+  player1enter: Boolean,
+  player2enter: Boolean,
+
 });
 
 var battle = new mongoose.Schema({
