@@ -247,27 +247,39 @@ var Lobby = React.createClass({
     this.socket = SocketIOClient('http://localhost:8080');
     this.socket.on('battle', (user) => {
       var alertPromise = new Promise(function(resolve, reject) {
-        Alert.alert(
+        return Alert.alert(
           'Battle!!!',
-          user.player1.username + ' has challenged you! Do you accept?',
+          user + ' has challenged you! Do you accept?',
           [
-            {text: 'Yes', onPress: () => resolve(true)},
-            {text: 'No', onPress: () => resolve(false)},
+            {text: 'Yes', onPress: () => accept = true},
+            {text: 'No', onPress: () => accept = false},
           ],
           { cancelable: false }
         )
       })
       alertPromise.then((accept) => {
+        alert('hiii')
         if (accept) {
-          user.player2 = loggedInUser;
-          this.socket.emit('acceptMatch', user);
-          this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}});
+          alert("accepted");
+          var accepted = {
+            accept: true,
+            user: loggedInUser
+          }
+          this.props.navigator.push({title: "Battle", component: CharacterBio})
+          this.socket.emit('acceptMatch', accepted);
+        } else {
+          alert("not accepted");
+          var declined = {
+            accept: false,
+            user: loggedInUser
+          }
+          this.socket.emit('acceptMatch', declined);
         }
       })
     })
     this.socket.on('acceptMatch', (user) => {
-      if (loggedInUser.username === user.player1.username) {
-          this.props.navigator.push({title: "CharacterBio", component: characterBio, passProps: {game: user}})
+      if (loggedInUser.username === user) {
+          this.props.navigator.push({title: "Battle", component: CharacterBio})
       }
     })
     // this.socket.emit('message', 'hi');
@@ -276,7 +288,7 @@ var Lobby = React.createClass({
     // })
   },
   challenge() {
-    this.socket.emit('challenge', {player1: loggedInUser})
+    this.socket.emit('challenge', {user: loggedInUser})
   },
   render() {
     return (
@@ -302,6 +314,7 @@ var Lobby = React.createClass({
 
 var landoDes = "";
 var speakerDes = "";
+
 
 var characterBio = React.createClass({
   getInitialState() {
@@ -417,7 +430,6 @@ var characterBio = React.createClass({
       </View>
       </View>
       </View>
-
     )
   }
 });
@@ -653,7 +665,6 @@ var characterTwo = React.createClass({
     )
   }
 });
-
 //Battle goes here
 
 var Battle = React.createClass({
@@ -1223,7 +1234,7 @@ var Leadership = React.createClass({
     return (
       <View>
       {this.state.users.map((user) =>
-        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Lobby", component: Lobby})} style={[styles.button, styles.buttonPurple]}>
+        <TouchableOpacity onPress={() => this.props.navigator.push({title: "Battle", component: CharacterBio})} style={[styles.button, styles.buttonPurple]}>
           <Text>{user.name} #{user.ranking}</Text>
         </TouchableOpacity>
       )}
